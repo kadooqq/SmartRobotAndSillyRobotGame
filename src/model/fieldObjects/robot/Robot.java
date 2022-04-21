@@ -2,6 +2,11 @@ package model.fieldObjects.robot;
 
 import model.field.Cell;
 import model.field.Direction;
+import model.listeners.RobotMoveListener;
+
+import java.util.ArrayList;
+import java.util.EventObject;
+import java.util.List;
 
 public abstract class Robot {
 
@@ -52,4 +57,25 @@ public abstract class Robot {
 
     // ----------------------------------------------- Работа с ландшафтом ---------------------------------------------
     protected abstract void processIfLandscapeSegment();
+
+    // ----------------------------------------------- Генерация события при перемещении -------------------------------
+    private final List<RobotMoveListener> _moveListeners = new ArrayList<>();
+
+    public void addRobotMoveListener(RobotMoveListener l) {
+        _moveListeners.add(l);
+    }
+
+    public void addRobotMoveListener(int index, RobotMoveListener l) {
+        _moveListeners.add(index, l);
+    }
+
+    public void removeRobotMoveListener(RobotMoveListener l) {
+        _moveListeners.remove(l);
+    }
+
+    protected void fireRobotMove() {
+        for (RobotMoveListener l : _moveListeners) {
+            l.robotMadeMove(new EventObject(this));
+        }
+    }
 }

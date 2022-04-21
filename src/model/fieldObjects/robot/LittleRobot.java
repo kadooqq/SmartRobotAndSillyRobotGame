@@ -4,7 +4,6 @@ import model.field.Direction;
 import model.fieldObjects.Destroyable;
 import model.fieldObjects.landscape.SwampSegment;
 import model.listeners.RobotDestroyListener;
-import model.listeners.RobotMoveListener;
 
 import java.util.ArrayList;
 import java.util.EventObject;
@@ -38,9 +37,8 @@ public class LittleRobot extends Robot implements Destroyable {
         fireRobotDestroy();
     }
 
-    // ----------------------------------------------- Порождение события ----------------------------------------------
+    // ----------------------------------------------- Порождение события при уничтожении ------------------------------
 
-    // ----------------------------------------------- при уничтожении
     private final List<RobotDestroyListener> _destroyListeners = new ArrayList<>();
 
     public void addRobotDestroyListener(RobotDestroyListener l) {
@@ -54,23 +52,6 @@ public class LittleRobot extends Robot implements Destroyable {
     protected void fireRobotDestroy() {
         for (RobotDestroyListener l : _destroyListeners) {
             l.robotDestroyed(new EventObject(this));
-        }
-    }
-
-    // ----------------------------------------------- при перемещении
-    private final List<RobotMoveListener> _moveListeners = new ArrayList<>();
-
-    public void addRobotMoveListener(RobotMoveListener l) {
-        _moveListeners.add(l);
-    }
-
-    public void removeRobotMoveListener(RobotMoveListener l) {
-        _moveListeners.remove(l);
-    }
-
-    protected void fireRobotMove() {
-        for (RobotMoveListener l : _moveListeners) {
-            l.robotMadeMove(new EventObject(this));
         }
     }
 }
