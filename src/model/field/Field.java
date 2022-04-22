@@ -1,10 +1,10 @@
 package model.field;
 
+import model.events.RobotTeleportEvent;
 import model.fieldObjects.robot.Robot;
 import model.listeners.ExitCellListener;
 
 import java.util.ArrayList;
-import java.util.EventObject;
 import java.util.TreeMap;
 
 public class Field implements ExitCellListener {
@@ -107,7 +107,7 @@ public class Field implements ExitCellListener {
     // ----------------------------------------------- Наблюдение за точкой выхода -------------------------------------
 
     @Override
-    public void robotTeleported(EventObject e) {
-        _robots.remove((Robot)e.getSource());
+    public void robotTeleported(RobotTeleportEvent e) {
+        _robots.remove((Robot)e.getTeleportedRobot());
     }
 }

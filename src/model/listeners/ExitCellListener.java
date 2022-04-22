@@ -1,7 +1,7 @@
 package model.listeners;
 
-import java.util.EventObject;
+import model.events.RobotTeleportEvent;
 
 public interface ExitCellListener {
-    public void robotTeleported(EventObject e);
+    public void robotTeleported(RobotTeleportEvent e);
 }

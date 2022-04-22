@@ -1,7 +1,7 @@
 package model.listeners;
 
-import java.util.EventObject;
+import model.events.RobotMoveEvent;
 
 public interface RobotMoveListener {
-    public void robotMadeMove(EventObject e);
+    public void robotMadeMove(RobotMoveEvent e);
 }

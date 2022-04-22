@@ -1,5 +1,7 @@
 package model.game;
 
+import model.events.RobotDestroyEvent;
+import model.events.RobotTeleportEvent;
 import model.field.Field;
 import model.fieldObjects.robot.BigRobot;
 import model.fieldObjects.robot.LittleRobot;
@@ -74,13 +76,13 @@ public class Game implements ExitCellListener, RobotDestroyListener {
 
     // ----------------------------------------------- Наблюдение за точкой выхода -------------------------------------
     @Override
-    public void robotTeleported(EventObject e) {
+    public void robotTeleported(RobotTeleportEvent e) {
         setGameStatus(GameStatus.WINNER_IS_LITTLE_ROBOT);
     }
 
     // ----------------------------------------------- Наблюдение за существованием маленького робота ------------------
     @Override
-    public void robotDestroyed(EventObject e) {
+    public void robotDestroyed(RobotDestroyEvent e) {
         setGameStatus(GameStatus.WINNER_IS_BIG_ROBOT);
     }
 

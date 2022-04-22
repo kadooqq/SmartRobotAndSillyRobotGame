@@ -1,7 +1,7 @@
 package model.listeners;
 
-import java.util.EventObject;
+import model.events.RobotDestroyEvent;
 
 public interface RobotDestroyListener {
-    public void robotDestroyed(EventObject e);
+    public void robotDestroyed(RobotDestroyEvent e);
 }

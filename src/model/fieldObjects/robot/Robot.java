@@ -1,11 +1,11 @@
 package model.fieldObjects.robot;
 
+import model.events.RobotMoveEvent;
 import model.field.Cell;
 import model.field.Direction;
 import model.listeners.RobotMoveListener;
 
 import java.util.ArrayList;
-import java.util.EventObject;
 import java.util.List;
 
 public abstract class Robot {
@@ -73,9 +73,13 @@ public abstract class Robot {
         _moveListeners.remove(l);
     }
 
-    protected void fireRobotMove() {
+    protected void fireRobotMove(Cell fromCell) {
         for (RobotMoveListener l : _moveListeners) {
-            l.robotMadeMove(new EventObject(this));
+            RobotMoveEvent e = new RobotMoveEvent(this);
+            e.setRobot(this);
+            e.setFromCell(fromCell);
+            e.setToCell(_position);
+            l.robotMadeMove(e);
         }
     }
 }

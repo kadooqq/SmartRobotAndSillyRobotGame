@@ -1,6 +1,6 @@
 package model.fieldObjects.robot;
 
-import model.gameStuff.PathFinder;
+import model.events.RobotMoveEvent;
 import model.field.Cell;
 import model.field.Direction;
 import model.field.MyPoint;
@@ -8,9 +8,8 @@ import model.fieldObjects.Destroyable;
 import model.fieldObjects.landscape.SwampSegment;
 import model.fieldObjects.landscape.characteristics.LandscapeCharacteristic;
 import model.fieldObjects.landscape.characteristics.ViscosityCharacteristic;
+import model.gameStuff.PathFinder;
 import model.listeners.RobotMoveListener;
-
-import java.util.EventObject;
 
 public class BigRobot extends Robot implements RobotMoveListener {
     private PathFinder _pathFinder;
@@ -59,8 +58,9 @@ public class BigRobot extends Robot implements RobotMoveListener {
             return;
         }
         Direction directionToMove = calculateStepDirection(((LittleRobot) _target).getPosition());
+        Cell fromCell = _position;
         if (move(directionToMove)) {
-            fireRobotMove();
+            fireRobotMove(fromCell);
         }
         if (directionToMove != null && _position.getNeighbourCell(directionToMove) == ((LittleRobot) _target)._position) {
             catchTarget();
@@ -104,7 +104,7 @@ public class BigRobot extends Robot implements RobotMoveListener {
 
     // ----------------------------------------------- Наблюдение за перемещением маленького робота --------------------
     @Override
-    public void robotMadeMove(EventObject e) {
+    public void robotMadeMove(RobotMoveEvent e) {
         makeStep();
     }
 }

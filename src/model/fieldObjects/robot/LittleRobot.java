@@ -1,12 +1,13 @@
 package model.fieldObjects.robot;
 
+import model.events.RobotDestroyEvent;
+import model.field.Cell;
 import model.field.Direction;
 import model.fieldObjects.Destroyable;
 import model.fieldObjects.landscape.SwampSegment;
 import model.listeners.RobotDestroyListener;
 
 import java.util.ArrayList;
-import java.util.EventObject;
 import java.util.List;
 
 public class LittleRobot extends Robot implements Destroyable {
@@ -14,8 +15,9 @@ public class LittleRobot extends Robot implements Destroyable {
     // ----------------------------------------------- Перемещение -----------------------------------------------------
     @Override
     public boolean move(Direction direction) {
+        Cell fromCell = _position;
         if (super.move(direction)) {
-            fireRobotMove();
+            fireRobotMove(fromCell);
             return true;
         }
         return false;
@@ -33,8 +35,9 @@ public class LittleRobot extends Robot implements Destroyable {
     @Override
     public void destroy() {
         _position.takeRobot();
+        Cell whereDestroyedCell = _position;
         _position = null;
-        fireRobotDestroy();
+        fireRobotDestroy(whereDestroyedCell);
     }
 
     // ----------------------------------------------- Порождение события при уничтожении ------------------------------
@@ -49,9 +52,12 @@ public class LittleRobot extends Robot implements Destroyable {
         _destroyListeners.remove(l);
     }
 
-    protected void fireRobotDestroy() {
+    protected void fireRobotDestroy(Cell whereDestroyedCell) {
         for (RobotDestroyListener l : _destroyListeners) {
-            l.robotDestroyed(new EventObject(this));
+            RobotDestroyEvent e = new RobotDestroyEvent(this);
+            e.setWhereDestroyedCell(whereDestroyedCell);
+            e.setDestroyedRobot(this);
+            l.robotDestroyed(e);
         }
     }
 }
