@@ -3,16 +3,15 @@ package model.fieldObjects.robot;
 import model.events.RobotMoveEvent;
 import model.field.Cell;
 import model.field.Direction;
+import model.fieldObjects.CellItem;
 import model.listeners.RobotMoveListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Robot {
+public abstract class Robot extends CellItem {
 
     // ----------------------------------------------- Позиция ---------------------------------------------------------
-    protected Cell _position = null;
-
     public boolean setPosition(Cell cell) {
         if (cell == null) return false;
         if (_position == cell) return true;
@@ -29,7 +28,7 @@ public abstract class Robot {
         return _position;
     }
 
-    public static boolean canBeLocatedAtPosition(Cell cell) {
+    public boolean canBeLocatedAtPosition(Cell cell) {
         return cell != null && cell.getRobot() == null;
     }
 

@@ -62,7 +62,7 @@ public class BigRobot extends Robot implements RobotMoveListener {
         if (move(directionToMove)) {
             fireRobotMove(fromCell);
         }
-        if (directionToMove != null && _position.getNeighbourCell(directionToMove) == ((LittleRobot) _target)._position) {
+        if (directionToMove != null && _position.getNeighbourCell(directionToMove) == ((LittleRobot) _target).getPosition()) {
             catchTarget();
         }
     }

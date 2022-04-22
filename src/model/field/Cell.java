@@ -73,7 +73,7 @@ public class Cell {
     public boolean setRobot(Robot robot) {
         if (robot == null) return false;
         if (_robot == robot) return true;
-        if (!Robot.canBeLocatedAtPosition(this)) return false;
+        if (!robot.canBeLocatedAtPosition(this)) return false;
         _robot = robot;
         return _robot.setPosition(this);
     }
@@ -115,9 +115,13 @@ public class Cell {
         return _landscapeSegment;
     }
 
-    public void setLandscapeSegment(final LandscapeSegment landscapeSegment) {
-        if (landscapeSegment == null) return;
-        landscapeSegment.setPosition(this);
-        _landscapeSegment = landscapeSegment;
+    public boolean setLandscapeSegment(final LandscapeSegment landscapeSegment) {
+        if (landscapeSegment == null) return false;
+        if (landscapeSegment.setPosition(this)) {
+            _landscapeSegment = landscapeSegment;
+            return true;
+        }
+
+        return false;
     }
 }
