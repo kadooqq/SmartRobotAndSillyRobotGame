@@ -2,6 +2,7 @@ package model.field.fieldObjects.robot;
 
 import model.events.RobotDestroyEvent;
 import model.field.Cell;
+import model.field.Direction;
 import model.field.fieldObjects.Destroyable;
 import model.field.fieldObjects.landscape.SwampSegment;
 import model.listeners.RobotDestroyListener;
@@ -10,6 +11,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LittleRobot extends Robot implements Destroyable {
+
+    // ----------------------------------------------- Перемещение -----------------------------------------------------
+    @Override
+    public boolean move(Direction direction) {
+        if (!super.move(direction)) {
+            if (_position.getWallSegment(direction) == null && _position.getNeighbourCell(direction) != null
+                    &&_position.getNeighbourCell(direction).getRobot() instanceof BigRobot) {
+                destroy();
+                return true;
+            }
+            return false;
+        }
+        return true;
+    }
 
     // ----------------------------------------------- Работа с ландшафтом ---------------------------------------------
     @Override
