@@ -1,18 +1,18 @@
 package model.game;
 
+import model.events.GameStatusChangeEvent;
 import model.events.RobotDestroyEvent;
 import model.events.RobotTeleportEvent;
 import model.field.Field;
-import model.fieldObjects.robot.BigRobot;
-import model.fieldObjects.robot.LittleRobot;
-import model.fieldObjects.robot.Robot;
+import model.field.fieldObjects.robot.BigRobot;
+import model.field.fieldObjects.robot.LittleRobot;
+import model.field.fieldObjects.robot.Robot;
+import model.labyrinth.Labyrinth;
 import model.listeners.ExitCellListener;
 import model.listeners.GameStatusChangedListener;
 import model.listeners.RobotDestroyListener;
-import model.labyrinth.Labyrinth;
 
 import java.util.ArrayList;
-import java.util.EventObject;
 import java.util.List;
 
 public class Game implements ExitCellListener, RobotDestroyListener {
@@ -99,7 +99,9 @@ public class Game implements ExitCellListener, RobotDestroyListener {
 
     protected void fireGameStatusChange() {
         for (GameStatusChangedListener l : _listeners) {
-            l.gameStatusChanged(new EventObject(_gameStatus));
+            GameStatusChangeEvent e = new GameStatusChangeEvent(this);
+            e.setGameStatus(_gameStatus);
+            l.gameStatusChanged(e);
         }
     }
 }
