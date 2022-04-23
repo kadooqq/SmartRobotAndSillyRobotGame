@@ -50,6 +50,10 @@ public class LittleRobot extends Robot implements Destroyable {
         _destroyListeners.add(l);
     }
 
+    public void addRobotDestroyListener(int index, RobotDestroyListener l) {
+        _destroyListeners.add(index, l);
+    }
+
     public void removeRobotDestroyListener(RobotDestroyListener l) {
         _destroyListeners.remove(l);
     }

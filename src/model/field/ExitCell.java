@@ -35,6 +35,10 @@ public class ExitCell extends Cell implements RobotMoveListener {
         _listeners.add(l);
     }
 
+    public void addExitCellListener(int index, ExitCellListener l) {
+        _listeners.add(index, l);
+    }
+
     public void removeExitCellListener(ExitCellListener l) {
         _listeners.remove(l);
     }
