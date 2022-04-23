@@ -2,8 +2,8 @@ package model.field;
 
 import model.events.RobotMoveEvent;
 import model.events.RobotTeleportEvent;
-import model.fieldObjects.robot.LittleRobot;
-import model.fieldObjects.robot.Robot;
+import model.field.fieldObjects.robot.LittleRobot;
+import model.field.fieldObjects.robot.Robot;
 import model.listeners.ExitCellListener;
 import model.listeners.RobotMoveListener;
 

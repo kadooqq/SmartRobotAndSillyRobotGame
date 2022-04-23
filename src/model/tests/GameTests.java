@@ -1,7 +1,7 @@
 package model.tests;
 
 import model.field.Direction;
-import model.fieldObjects.robot.LittleRobot;
+import model.field.fieldObjects.robot.LittleRobot;
 import model.game.Game;
 import model.game.GameStatus;
 import model.labyrinth.SimpleLabyrinth;

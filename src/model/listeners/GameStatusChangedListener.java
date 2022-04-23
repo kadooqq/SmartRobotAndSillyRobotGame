@@ -1,7 +1,7 @@
 package model.listeners;
 
-import java.util.EventObject;
+import model.events.GameStatusChangeEvent;
 
 public interface GameStatusChangedListener {
-    public void gameStatusChanged(EventObject e);
+    public void gameStatusChanged(GameStatusChangeEvent e);
 }

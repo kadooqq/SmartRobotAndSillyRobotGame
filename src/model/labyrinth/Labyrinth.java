@@ -2,10 +2,10 @@ package model.labyrinth;
 
 import model.field.ExitCell;
 import model.field.Field;
-import model.fieldObjects.landscape.LandscapeSegment;
-import model.fieldObjects.landscape.SwampSegment;
-import model.fieldObjects.robot.LittleRobot;
-import model.fieldObjects.robot.Robot;
+import model.field.fieldObjects.landscape.LandscapeSegment;
+import model.field.fieldObjects.landscape.SwampSegment;
+import model.field.fieldObjects.robot.LittleRobot;
+import model.field.fieldObjects.robot.Robot;
 import model.field.MyPoint;
 
 public abstract class Labyrinth {

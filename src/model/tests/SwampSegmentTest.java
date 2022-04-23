@@ -1,7 +1,7 @@
 package model.tests;
 
-import model.fieldObjects.landscape.SwampSegment;
-import model.fieldObjects.landscape.characteristics.ViscosityCharacteristic;
+import model.field.fieldObjects.landscape.SwampSegment;
+import model.field.fieldObjects.landscape.characteristics.ViscosityCharacteristic;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 

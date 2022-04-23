@@ -2,12 +2,12 @@ package model.labyrinth;
 
 import model.field.Direction;
 import model.field.Field;
-import model.fieldObjects.landscape.SwampSegment;
-import model.fieldObjects.robot.BigRobot;
-import model.fieldObjects.robot.LittleRobot;
+import model.field.fieldObjects.landscape.SwampSegment;
+import model.field.fieldObjects.robot.BigRobot;
+import model.field.fieldObjects.robot.LittleRobot;
 import model.gameStuff.PathFinder;
 import model.field.MyPoint;
-import model.fieldObjects.WallSegment;
+import model.field.fieldObjects.WallSegment;
 
 public class SimpleLabyrinth extends Labyrinth {
 

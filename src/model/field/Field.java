@@ -1,7 +1,7 @@
 package model.field;
 
 import model.events.RobotTeleportEvent;
-import model.fieldObjects.robot.Robot;
+import model.field.fieldObjects.robot.Robot;
 import model.listeners.ExitCellListener;
 
 import java.util.ArrayList;

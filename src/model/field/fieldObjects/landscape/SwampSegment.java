@@ -1,6 +1,6 @@
-package model.fieldObjects.landscape;
+package model.field.fieldObjects.landscape;
 
-import model.fieldObjects.landscape.characteristics.ViscosityCharacteristic;
+import model.field.fieldObjects.landscape.characteristics.ViscosityCharacteristic;
 
 public class SwampSegment extends LandscapeSegment {
     public SwampSegment(double characteristicCoefficient) {

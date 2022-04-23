@@ -4,7 +4,7 @@ import model.field.BetweenCellPosition;
 import model.field.Direction;
 import model.field.Cell;
 import model.field.MyPoint;
-import model.fieldObjects.WallSegment;
+import model.field.fieldObjects.WallSegment;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 

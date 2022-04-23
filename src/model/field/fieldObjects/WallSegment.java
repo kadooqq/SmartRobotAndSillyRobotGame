@@ -1,4 +1,4 @@
-package model.fieldObjects;
+package model.field.fieldObjects;
 
 import model.field.BetweenCellPosition;
 

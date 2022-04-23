@@ -1,7 +1,7 @@
 package model.events;
 
 import model.field.ExitCell;
-import model.fieldObjects.robot.Robot;
+import model.field.fieldObjects.robot.Robot;
 
 import java.util.EventObject;
 

@@ -1,9 +1,9 @@
-package model.fieldObjects.landscape;
+package model.field.fieldObjects.landscape;
 
 import model.field.Cell;
 import model.field.ExitCell;
-import model.fieldObjects.CellItem;
-import model.fieldObjects.landscape.characteristics.LandscapeCharacteristic;
+import model.field.fieldObjects.CellItem;
+import model.field.fieldObjects.landscape.characteristics.LandscapeCharacteristic;
 
 public abstract class LandscapeSegment extends CellItem {
     protected Cell _position = null;

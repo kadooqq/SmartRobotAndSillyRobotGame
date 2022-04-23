@@ -4,9 +4,9 @@ import model.field.Direction;
 import model.field.ExitCell;
 import model.field.Field;
 import model.field.MyPoint;
-import model.fieldObjects.WallSegment;
-import model.fieldObjects.landscape.SwampSegment;
-import model.fieldObjects.robot.LittleRobot;
+import model.field.fieldObjects.WallSegment;
+import model.field.fieldObjects.landscape.SwampSegment;
+import model.field.fieldObjects.robot.LittleRobot;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 

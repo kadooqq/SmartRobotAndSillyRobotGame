@@ -1,7 +1,7 @@
 package model.tests;
 
 import model.field.Direction;
-import model.fieldObjects.landscape.SwampSegment;
+import model.field.fieldObjects.landscape.SwampSegment;
 import model.field.Cell;
 import model.field.MyPoint;
 import org.junit.Test;

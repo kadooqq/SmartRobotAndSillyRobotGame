@@ -1,4 +1,4 @@
-package model.fieldObjects.landscape.characteristics;
+package model.field.fieldObjects.landscape.characteristics;
 
 public class ViscosityCharacteristic extends LandscapeCharacteristic {
     public ViscosityCharacteristic(double coefficient) {

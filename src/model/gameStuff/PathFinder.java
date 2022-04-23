@@ -3,7 +3,7 @@ package model.gameStuff;
 import model.field.Cell;
 import model.field.Direction;
 import model.field.Field;
-import model.fieldObjects.robot.BigRobot;
+import model.field.fieldObjects.robot.BigRobot;
 
 import java.util.ArrayList;
 import java.util.List;

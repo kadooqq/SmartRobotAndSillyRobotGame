@@ -2,8 +2,8 @@ package model.tests;
 
 import model.field.Cell;
 import model.field.MyPoint;
-import model.fieldObjects.robot.BigRobot;
-import model.fieldObjects.robot.LittleRobot;
+import model.field.fieldObjects.robot.BigRobot;
+import model.field.fieldObjects.robot.LittleRobot;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 

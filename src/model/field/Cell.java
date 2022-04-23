@@ -1,8 +1,8 @@
 package model.field;
 
-import model.fieldObjects.WallSegment;
-import model.fieldObjects.landscape.LandscapeSegment;
-import model.fieldObjects.robot.Robot;
+import model.field.fieldObjects.WallSegment;
+import model.field.fieldObjects.landscape.LandscapeSegment;
+import model.field.fieldObjects.robot.Robot;
 
 import java.util.Stack;
 import java.util.TreeMap;
