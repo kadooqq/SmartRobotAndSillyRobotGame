@@ -102,7 +102,7 @@ public class PathFinder {
     }
 
     private List<Cell> getAvailableNeighbours(Cell cell) {
-        List<Cell> neighbours = new ArrayList<Cell>();
+        List<Cell> neighbours = new ArrayList<>();
 
         for (var cellEntry : cell.getNeighbourCells().entrySet()) {
             if (moveIsPossible(cell, cellEntry.getKey())) {
@@ -114,6 +114,6 @@ public class PathFinder {
     }
 
     private boolean moveIsPossible(Cell position, Direction direction){
-        return position.getNeighbourCell(direction) != null && position.getNeighbourCell(direction).getWallSegment(direction) == null;
+        return position.getNeighbourCell(direction) != null && position.getWallSegment(direction) == null;
     }
 }
