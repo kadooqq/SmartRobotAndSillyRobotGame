@@ -22,9 +22,8 @@ public class LittleRobot extends Robot implements Destroyable {
     // ----------------------------------------------- Уничтожение -----------------------------------------------------
     @Override
     public void destroy() {
-        _position.takeRobot();
         Cell whereDestroyedCell = _position;
-        _position = null;
+        _position.takeRobot();
         fireRobotDestroy(whereDestroyedCell);
     }
 
