@@ -58,8 +58,7 @@ public class BigRobot extends Robot implements RobotMoveListener {
             return;
         }
         Direction directionToMove = calculateStepDirection(((LittleRobot) _target).getPosition());
-        move(directionToMove);
-        if (directionToMove != null
+        if (!move(directionToMove) && directionToMove != null
                 && _position.getNeighbourCell(directionToMove) == ((LittleRobot) _target).getPosition()) {
             catchTarget();
         }
