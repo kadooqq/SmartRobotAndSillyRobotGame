@@ -1,13 +1,13 @@
-package model.fieldObjects.robot;
+package model.field.fieldObjects.robot;
 
 import model.events.RobotMoveEvent;
 import model.field.Cell;
 import model.field.Direction;
 import model.field.MyPoint;
-import model.fieldObjects.Destroyable;
-import model.fieldObjects.landscape.SwampSegment;
-import model.fieldObjects.landscape.characteristics.LandscapeCharacteristic;
-import model.fieldObjects.landscape.characteristics.ViscosityCharacteristic;
+import model.field.fieldObjects.Destroyable;
+import model.field.fieldObjects.landscape.SwampSegment;
+import model.field.fieldObjects.landscape.characteristics.LandscapeCharacteristic;
+import model.field.fieldObjects.landscape.characteristics.ViscosityCharacteristic;
 import model.gameStuff.PathFinder;
 import model.listeners.RobotMoveListener;
 
@@ -58,11 +58,9 @@ public class BigRobot extends Robot implements RobotMoveListener {
             return;
         }
         Direction directionToMove = calculateStepDirection(((LittleRobot) _target).getPosition());
-        Cell fromCell = _position;
-        if (move(directionToMove)) {
-            fireRobotMove(fromCell);
-        }
-        if (directionToMove != null && _position.getNeighbourCell(directionToMove) == ((LittleRobot) _target).getPosition()) {
+        move(directionToMove);
+        if (directionToMove != null
+                && _position.getNeighbourCell(directionToMove) == ((LittleRobot) _target).getPosition()) {
             catchTarget();
         }
     }

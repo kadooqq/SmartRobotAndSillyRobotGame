@@ -1,9 +1,9 @@
-package model.fieldObjects.robot;
+package model.field.fieldObjects.robot;
 
 import model.events.RobotMoveEvent;
 import model.field.Cell;
 import model.field.Direction;
-import model.fieldObjects.CellItem;
+import model.field.fieldObjects.CellItem;
 import model.listeners.RobotMoveListener;
 
 import java.util.ArrayList;
@@ -43,12 +43,14 @@ public abstract class Robot extends CellItem {
         return null;
     }
 
-    protected boolean move(Direction direction) {
+    public boolean move(Direction direction) {
         Cell cellToMove = canMove(direction);
         if (cellToMove == null) return false;
+        Cell fromCell = getPosition();
         getPosition().takeRobot();
         if (setPosition(cellToMove)) {
             processIfLandscapeSegment();
+            fireRobotMove(fromCell, cellToMove);
             return true;
         }
         return false;
@@ -72,12 +74,12 @@ public abstract class Robot extends CellItem {
         _moveListeners.remove(l);
     }
 
-    protected void fireRobotMove(Cell fromCell) {
+    protected void fireRobotMove(Cell fromCell, Cell toCell) {
         for (RobotMoveListener l : _moveListeners) {
             RobotMoveEvent e = new RobotMoveEvent(this);
             e.setRobot(this);
             e.setFromCell(fromCell);
-            e.setToCell(_position);
+            e.setToCell(toCell);
             l.robotMadeMove(e);
         }
     }

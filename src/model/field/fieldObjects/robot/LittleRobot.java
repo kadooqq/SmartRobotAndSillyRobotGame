@@ -1,27 +1,15 @@
-package model.fieldObjects.robot;
+package model.field.fieldObjects.robot;
 
 import model.events.RobotDestroyEvent;
 import model.field.Cell;
-import model.field.Direction;
-import model.fieldObjects.Destroyable;
-import model.fieldObjects.landscape.SwampSegment;
+import model.field.fieldObjects.Destroyable;
+import model.field.fieldObjects.landscape.SwampSegment;
 import model.listeners.RobotDestroyListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LittleRobot extends Robot implements Destroyable {
-
-    // ----------------------------------------------- Перемещение -----------------------------------------------------
-    @Override
-    public boolean move(Direction direction) {
-        Cell fromCell = _position;
-        if (super.move(direction)) {
-            fireRobotMove(fromCell);
-            return true;
-        }
-        return false;
-    }
 
     // ----------------------------------------------- Работа с ландшафтом ---------------------------------------------
     @Override
