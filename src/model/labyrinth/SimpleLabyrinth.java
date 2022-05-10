@@ -51,5 +51,6 @@ public class SimpleLabyrinth extends Labyrinth {
         setLandscapeSegment(field, new MyPoint(3, 2), new SwampSegment(3));
         setLandscapeSegment(field, new MyPoint(2, 3), new SwampSegment(3));
         setLandscapeSegment(field, new MyPoint(3, 3), new SwampSegment(3));
+        setLandscapeSegment(field, new MyPoint(6, 5), new SwampSegment(3));
     }
 }
