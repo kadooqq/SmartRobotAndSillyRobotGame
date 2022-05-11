@@ -46,11 +46,12 @@ public class SimpleLabyrinth extends Labyrinth {
 
     @Override
     protected void addLandscape(Field field) {
-        setLandscapeSegment(field, new MyPoint(2, 1), new SwampSegment(3));
-        setLandscapeSegment(field, new MyPoint(2, 2), new SwampSegment(3));
-        setLandscapeSegment(field, new MyPoint(3, 2), new SwampSegment(3));
-        setLandscapeSegment(field, new MyPoint(2, 3), new SwampSegment(3));
-        setLandscapeSegment(field, new MyPoint(3, 3), new SwampSegment(3));
-        setLandscapeSegment(field, new MyPoint(6, 5), new SwampSegment(3));
+        int SWAMP_COEFFICIENT = 3;
+        setLandscapeSegment(field, new MyPoint(2, 1), new SwampSegment(SWAMP_COEFFICIENT));
+        setLandscapeSegment(field, new MyPoint(2, 2), new SwampSegment(SWAMP_COEFFICIENT));
+        setLandscapeSegment(field, new MyPoint(3, 2), new SwampSegment(SWAMP_COEFFICIENT));
+        setLandscapeSegment(field, new MyPoint(2, 3), new SwampSegment(SWAMP_COEFFICIENT));
+        setLandscapeSegment(field, new MyPoint(3, 3), new SwampSegment(SWAMP_COEFFICIENT));
+        setLandscapeSegment(field, new MyPoint(6, 5), new SwampSegment(SWAMP_COEFFICIENT));
     }
 }
