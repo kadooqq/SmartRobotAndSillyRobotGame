@@ -43,7 +43,7 @@ public abstract class Robot extends CellItem {
         return null;
     }
 
-    public boolean move(Direction direction) {
+    protected boolean move(Direction direction) {
         Cell cellToMove = canMove(direction);
         if (cellToMove == null) return false;
         Cell fromCell = getPosition();

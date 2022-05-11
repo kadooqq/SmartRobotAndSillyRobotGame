@@ -1,6 +1,7 @@
 package ui.field.cell.cellItems.robots;
 
 import model.field.Direction;
+import model.field.fieldObjects.robot.LittleRobot;
 import model.field.fieldObjects.robot.Robot;
 import ui.utils.ImageUtils;
 
@@ -62,7 +63,7 @@ public class LittleRobotWidget extends RobotWidget {
         private void moveAction(int keyCode){
             Direction direction = directionByKeyCode(keyCode);
             if(direction != null) {
-                _robot.move(direction);
+                ((LittleRobot)_robot).move(direction);
             }
         }
 
