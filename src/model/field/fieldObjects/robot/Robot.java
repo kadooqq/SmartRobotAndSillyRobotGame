@@ -43,14 +43,21 @@ public abstract class Robot extends CellItem {
         return null;
     }
 
-    protected boolean move(Direction direction) {
+    protected boolean makeStep(Direction direction) {
+        if (move(direction)) {
+            processIfLandscapeSegment();
+            return true;
+        }
+        return false;
+    }
+
+    private boolean move(Direction direction) {
         Cell cellToMove = canMove(direction);
         if (cellToMove == null) return false;
         Cell fromCell = getPosition();
         getPosition().takeRobot();
         if (setPosition(cellToMove)) {
             fireRobotMove(fromCell, cellToMove);
-            processIfLandscapeSegment();
             return true;
         }
         return false;

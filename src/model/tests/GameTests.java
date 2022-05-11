@@ -23,9 +23,9 @@ public class GameTests {
             }
         }
 
-        Assertions.assertTrue(littleRobot.move(Direction.NORTH));
-        Assertions.assertTrue(littleRobot.move(Direction.NORTH));
-        Assertions.assertTrue(littleRobot.move(Direction.NORTH));
+        Assertions.assertTrue(littleRobot.makeStep(Direction.NORTH));
+        Assertions.assertTrue(littleRobot.makeStep(Direction.NORTH));
+        Assertions.assertTrue(littleRobot.makeStep(Direction.NORTH));
 
         Assertions.assertEquals(GameStatus.WINNER_IS_LITTLE_ROBOT, game.getGameStatus());
     }
@@ -44,7 +44,7 @@ public class GameTests {
             }
         }
 
-        Assertions.assertTrue(littleRobot.move(Direction.EAST));
+        Assertions.assertTrue(littleRobot.makeStep(Direction.EAST));
 
         Assertions.assertEquals(GameStatus.WINNER_IS_BIG_ROBOT, game.getGameStatus());
     }

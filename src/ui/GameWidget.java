@@ -75,6 +75,7 @@ public class GameWidget extends JPanel {
             to.addItem(robotWidget);
             robotWidget.repaint();
 
+            //TODO баг с UI!!!!!!!!
             if (e.getRobot() instanceof LittleRobot && !(to instanceof ExitCellWidget)) {
                 robotWidget.requestFocusInWindow();
             }

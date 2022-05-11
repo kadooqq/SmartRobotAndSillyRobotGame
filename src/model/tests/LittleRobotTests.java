@@ -28,7 +28,7 @@ public class LittleRobotTests {
         Assertions.assertEquals(field.getCell(littleRobotStartPosition).getRobot(), robot);
 
         // Переместиться в свободную соседнюю ячейку
-        Assertions.assertTrue(robot.move(Direction.EAST));
+        Assertions.assertTrue(robot.makeStep(Direction.EAST));
 
         MyPoint resultPosition = littleRobotStartPosition.getNeighbourPoint(Direction.EAST);
 
@@ -54,8 +54,8 @@ public class LittleRobotTests {
         Assertions.assertEquals(field.getCell(littleRobotStartPosition).getRobot(), robot);
 
         // Переместиться в сторону, где нет ячеек поля
-        Assertions.assertFalse(robot.move(Direction.WEST));
-        Assertions.assertFalse(robot.move(Direction.SOUTH));
+        Assertions.assertFalse(robot.makeStep(Direction.WEST));
+        Assertions.assertFalse(robot.makeStep(Direction.SOUTH));
 
         Assertions.assertEquals(field.getCell(littleRobotStartPosition), robot.getPosition());
         Assertions.assertEquals(field.getCell(littleRobotStartPosition).getRobot(), robot);
@@ -78,7 +78,7 @@ public class LittleRobotTests {
         Assertions.assertEquals(field.getCell(littleRobotStartPosition).getRobot(), robot);
 
         // Переместиться в свободную соседнюю ячейку
-        Assertions.assertTrue(robot.move(Direction.NORTH));
+        Assertions.assertTrue(robot.makeStep(Direction.NORTH));
 
         MyPoint resultPosition = littleRobotStartPosition.getNeighbourPoint(Direction.NORTH);
 
@@ -104,7 +104,7 @@ public class LittleRobotTests {
         Assertions.assertEquals(field.getCell(littleRobotStartPosition).getRobot(), robot);
 
         // Переместиться в свободную соседнюю ячейку
-        Assertions.assertTrue(robot.move(Direction.WEST));
+        Assertions.assertTrue(robot.makeStep(Direction.WEST));
 
         MyPoint resultPosition = littleRobotStartPosition.getNeighbourPoint(Direction.WEST);
 
@@ -130,7 +130,7 @@ public class LittleRobotTests {
         Assertions.assertEquals(field.getCell(littleRobotStartPosition).getRobot(), robot);
 
         // Переместиться в свободную соседнюю ячейку
-        Assertions.assertTrue(robot.move(Direction.SOUTH));
+        Assertions.assertTrue(robot.makeStep(Direction.SOUTH));
 
         MyPoint resultPosition = littleRobotStartPosition.getNeighbourPoint(Direction.SOUTH);
 
@@ -159,7 +159,7 @@ public class LittleRobotTests {
         Assertions.assertTrue(field.getCell(littleRobotStartPosition).setWallSegment(new WallSegment(), Direction.NORTH));
 
         // Попытаться переместиться в ячейку, закрытую стеной
-        Assertions.assertFalse(robot.move(Direction.NORTH));
+        Assertions.assertFalse(robot.makeStep(Direction.NORTH));
 
         Assertions.assertEquals(field.getCell(littleRobotStartPosition), robot.getPosition());
         Assertions.assertEquals(field.getCell(littleRobotStartPosition).getRobot(), robot);
@@ -185,7 +185,7 @@ public class LittleRobotTests {
         Assertions.assertTrue(field.getCell(littleRobotStartPosition).setWallSegment(new WallSegment(), Direction.NORTH));
 
         // Переместиться в свободную соседнюю ячейку
-        Assertions.assertTrue(robot.move(Direction.EAST));
+        Assertions.assertTrue(robot.makeStep(Direction.EAST));
 
         MyPoint resultPosition = littleRobotStartPosition.getNeighbourPoint(Direction.EAST);
         Assertions.assertNull(field.getCell(littleRobotStartPosition).getRobot());
@@ -213,7 +213,7 @@ public class LittleRobotTests {
         field.getCell(littleRobotStartPosition.getNeighbourPoint(Direction.EAST)).setLandscapeSegment(new SwampSegment(1));
 
         // Переместиться в ячейку с болотом
-        Assertions.assertTrue(robot.move(Direction.EAST));
+        Assertions.assertTrue(robot.makeStep(Direction.EAST));
 
         MyPoint resultPosition = littleRobotStartPosition.getNeighbourPoint(Direction.EAST);
         Assertions.assertNull(field.getCell(littleRobotStartPosition).getRobot());
@@ -240,7 +240,7 @@ public class LittleRobotTests {
         Assertions.assertEquals(field.getCell(littleRobotStartPosition).getRobot(), robot);
 
         // Переместиться в точку выхода
-        Assertions.assertTrue(robot.move(Direction.WEST));
+        Assertions.assertTrue(robot.makeStep(Direction.WEST));
 
         Assertions.assertNull(field.getCell(littleRobotStartPosition).getRobot());
         Assertions.assertNull(robot.getPosition());

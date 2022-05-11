@@ -63,7 +63,7 @@ public class LittleRobotWidget extends RobotWidget {
         private void moveAction(int keyCode){
             Direction direction = directionByKeyCode(keyCode);
             if(direction != null) {
-                ((LittleRobot)_robot).move(direction);
+                ((LittleRobot)_robot).makeStep(direction);
             }
         }
 

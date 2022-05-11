@@ -15,24 +15,25 @@ import java.util.List;
 public class LittleRobot extends Robot implements Destroyable {
 
     // ----------------------------------------------- Перемещение -----------------------------------------------------
+
     @Override
-    public boolean move(Direction direction) {
-        boolean isSuccessfulMove = super.move(direction);
-        if (!isSuccessfulMove) {
+    public boolean makeStep(Direction direction) {
+        boolean isSuccessfulStep = super.makeStep(direction);
+        if (!isSuccessfulStep) {
             if (_position.getWallSegment(direction) == null && _position.getNeighbourCell(direction) != null
                     &&_position.getNeighbourCell(direction).getRobot() instanceof BigRobot) {
                 destroy();
-                isSuccessfulMove = true;
+                isSuccessfulStep = true;
             }
         }
         fireLittleRobotEndStep();
-        return isSuccessfulMove;
+        return isSuccessfulStep;
     }
 
     // ----------------------------------------------- Работа с ландшафтом ---------------------------------------------
     @Override
     protected void processIfLandscapeSegment() {
-        if (_position.getLandscapeSegment() != null && _position.getLandscapeSegment() instanceof SwampSegment) {
+        if (_position != null && _position.getLandscapeSegment() != null && _position.getLandscapeSegment() instanceof SwampSegment) {
             destroy();
         }
     }
