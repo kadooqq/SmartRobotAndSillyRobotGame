@@ -1,6 +1,6 @@
 package model.field.fieldObjects.robot;
 
-import model.events.RobotMoveEvent;
+import model.events.LittleRobotEndStepEvent;
 import model.field.Cell;
 import model.field.Direction;
 import model.field.MyPoint;
@@ -9,9 +9,9 @@ import model.field.fieldObjects.landscape.SwampSegment;
 import model.field.fieldObjects.landscape.characteristics.LandscapeCharacteristic;
 import model.field.fieldObjects.landscape.characteristics.ViscosityCharacteristic;
 import model.gameStuff.PathFinder;
-import model.listeners.RobotMoveListener;
+import model.listeners.LittleRobotEndStepListener;
 
-public class BigRobot extends Robot implements RobotMoveListener {
+public class BigRobot extends Robot implements LittleRobotEndStepListener {
     private PathFinder _pathFinder;
 
     public void setPathFinder(PathFinder pathFinder) {
@@ -101,7 +101,7 @@ public class BigRobot extends Robot implements RobotMoveListener {
 
     // ----------------------------------------------- Наблюдение за перемещением маленького робота --------------------
     @Override
-    public void robotMadeMove(RobotMoveEvent e) {
+    public void littleRobotEndedStep(LittleRobotEndStepEvent e) {
         makeStep();
     }
 }

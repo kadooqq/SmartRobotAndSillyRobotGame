@@ -26,7 +26,7 @@ public class BigRobotTests {
         bigRobot.setTarget(littleRobot);
         field.getCell(new MyPoint(5, 5)).setRobot(bigRobot);
 
-        littleRobot.addRobotMoveListener(bigRobot);
+        littleRobot.addRobotEndStepListener(bigRobot);
 
         Assertions.assertTrue(littleRobot.move(Direction.NORTH));
         Assertions.assertEquals(field.getCell(new MyPoint(4, 5)), bigRobot.getPosition());
@@ -47,7 +47,7 @@ public class BigRobotTests {
         bigRobot.setTarget(littleRobot);
         field.getCell(new MyPoint(1, 1)).setRobot(bigRobot);
 
-        littleRobot.addRobotMoveListener(bigRobot);
+        littleRobot.addRobotEndStepListener(bigRobot);
 
         Assertions.assertTrue(littleRobot.move(Direction.SOUTH));
         Assertions.assertEquals(field.getCell(new MyPoint(2, 1)), bigRobot.getPosition());
@@ -68,7 +68,7 @@ public class BigRobotTests {
         bigRobot.setTarget(littleRobot);
         field.getCell(new MyPoint(5, 1)).setRobot(bigRobot);
 
-        littleRobot.addRobotMoveListener(bigRobot);
+        littleRobot.addRobotEndStepListener(bigRobot);
 
         Assertions.assertTrue(littleRobot.move(Direction.SOUTH));
         Assertions.assertEquals(field.getCell(new MyPoint(5, 1)), bigRobot.getPosition());
@@ -89,7 +89,7 @@ public class BigRobotTests {
         bigRobot.setTarget(littleRobot);
         field.getCell(new MyPoint(5, 2)).setRobot(bigRobot);
 
-        littleRobot.addRobotMoveListener(bigRobot);
+        littleRobot.addRobotEndStepListener(bigRobot);
 
         Assertions.assertTrue(littleRobot.move(Direction.SOUTH));
         Assertions.assertEquals(field.getCell(new MyPoint(5, 3)), bigRobot.getPosition());
@@ -110,7 +110,7 @@ public class BigRobotTests {
         bigRobot.setTarget(littleRobot);
         field.getCell(new MyPoint(5, 3)).setRobot(bigRobot);
 
-        littleRobot.addRobotMoveListener(bigRobot);
+        littleRobot.addRobotEndStepListener(bigRobot);
 
         Assertions.assertTrue(littleRobot.move(Direction.SOUTH));
         Assertions.assertEquals(field.getCell(new MyPoint(5, 3)), bigRobot.getPosition());
@@ -134,7 +134,7 @@ public class BigRobotTests {
         field.getCell(new MyPoint(1, 1)).setRobot(bigRobot);
         field.getCell(new MyPoint(2, 1)).setLandscapeSegment(new SwampSegment(3));
 
-        littleRobot.addRobotMoveListener(bigRobot);
+        littleRobot.addRobotEndStepListener(bigRobot);
 
         Assertions.assertTrue(littleRobot.move(Direction.SOUTH));
         Assertions.assertEquals(field.getCell(new MyPoint(2, 1)), bigRobot.getPosition());

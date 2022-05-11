@@ -1,10 +1,12 @@
 package model.field.fieldObjects.robot;
 
+import model.events.LittleRobotEndStepEvent;
 import model.events.RobotDestroyEvent;
 import model.field.Cell;
 import model.field.Direction;
 import model.field.fieldObjects.Destroyable;
 import model.field.fieldObjects.landscape.SwampSegment;
+import model.listeners.LittleRobotEndStepListener;
 import model.listeners.RobotDestroyListener;
 
 import java.util.ArrayList;
@@ -15,15 +17,16 @@ public class LittleRobot extends Robot implements Destroyable {
     // ----------------------------------------------- Перемещение -----------------------------------------------------
     @Override
     public boolean move(Direction direction) {
-        if (!super.move(direction)) {
+        boolean isSuccessfulMove = super.move(direction);
+        if (!isSuccessfulMove) {
             if (_position.getWallSegment(direction) == null && _position.getNeighbourCell(direction) != null
                     &&_position.getNeighbourCell(direction).getRobot() instanceof BigRobot) {
                 destroy();
-                return true;
+                isSuccessfulMove = true;
             }
-            return false;
         }
-        return true;
+        fireLittleRobotEndStep();
+        return isSuccessfulMove;
     }
 
     // ----------------------------------------------- Работа с ландшафтом ---------------------------------------------
@@ -64,6 +67,28 @@ public class LittleRobot extends Robot implements Destroyable {
             e.setWhereDestroyedCell(whereDestroyedCell);
             e.setDestroyedRobot(this);
             l.robotDestroyed(e);
+        }
+    }
+
+    // ----------------------------------------------- Порождение события об окончании хода ----------------------------
+
+    private final List<LittleRobotEndStepListener> _endStepListeners = new ArrayList<>();
+
+    public void addRobotEndStepListener(LittleRobotEndStepListener l) {
+        _endStepListeners.add(l);
+    }
+
+    public void addRobotEndStepListener(int index, LittleRobotEndStepListener l) {
+        _endStepListeners.add(index, l);
+    }
+
+    public void removeRobotDestroyListener(LittleRobotEndStepListener l) {
+        _endStepListeners.remove(l);
+    }
+
+    protected void fireLittleRobotEndStep() {
+        for (LittleRobotEndStepListener l : _endStepListeners) {
+            l.littleRobotEndedStep(new LittleRobotEndStepEvent(this));
         }
     }
 }

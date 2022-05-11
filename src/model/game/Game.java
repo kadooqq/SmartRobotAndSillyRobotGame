@@ -67,7 +67,7 @@ public class Game implements ExitCellListener, RobotDestroyListener {
         }
 
         littleRobot.addRobotMoveListener(_gameField.getExitCell());
-        littleRobot.addRobotMoveListener(bigRobot);
+        littleRobot.addRobotEndStepListener(bigRobot);
 
         littleRobot.addRobotDestroyListener(this);
 
