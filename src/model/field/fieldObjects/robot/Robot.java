@@ -49,8 +49,8 @@ public abstract class Robot extends CellItem {
         Cell fromCell = getPosition();
         getPosition().takeRobot();
         if (setPosition(cellToMove)) {
-            processIfLandscapeSegment();
             fireRobotMove(fromCell, cellToMove);
+            processIfLandscapeSegment();
             return true;
         }
         return false;

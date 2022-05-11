@@ -61,11 +61,7 @@ public class GameWidget extends JPanel {
             CellItemWidget robotWidget = _fields.get(_game.getGameField()).getWidgetFactory().getWidget(e.getDestroyedRobot());
             CellWidget cellWhereDestroyedWidget = _fields.get(_game.getGameField()).getWidgetFactory().getWidget(e.getCellWhereDestroyed());
 
-            for (var neighbourCell : e.getCellWhereDestroyed().getNeighbourCells().values()) {
-                _fields.get(_game.getGameField()).getWidgetFactory().getWidget(neighbourCell).removeItem(robotWidget);
-            }
-
-            cellWhereDestroyedWidget.addItem(robotWidget);
+            cellWhereDestroyedWidget.removeItem(robotWidget);
 
             robotWidget.repaint();
         }
