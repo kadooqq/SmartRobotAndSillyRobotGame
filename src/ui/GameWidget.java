@@ -77,11 +77,6 @@ public class GameWidget extends JPanel {
             from.removeItem(robotWidget);
             to.addItem(robotWidget);
             robotWidget.repaint();
-
-            /*//баг с UI!!!!!!!!
-            if (e.getRobot() instanceof LittleRobot && !(to instanceof ExitCellWidget)) {
-                robotWidget.requestFocusInWindow();
-            }*/
         }
     }
 
