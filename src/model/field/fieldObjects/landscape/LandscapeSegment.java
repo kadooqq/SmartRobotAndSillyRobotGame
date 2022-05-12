@@ -8,6 +8,12 @@ import model.field.fieldObjects.landscape.characteristics.LandscapeCharacteristi
 public abstract class LandscapeSegment extends CellItem {
     protected Cell _position = null;
 
+    protected LandscapeSegment(double characteristicCoefficient) {
+        if (characteristicCoefficient < 0) {
+            throw new IllegalArgumentException("Невозможно создать характеристику ландшафта отрицательной");
+        }
+    }
+
     public boolean setPosition(Cell position) {
         if (canBeLocatedAtPosition(position))
         if (_position == position) return true;
