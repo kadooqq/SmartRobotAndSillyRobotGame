@@ -1,5 +1,6 @@
 package ui;
 
+import model.events.LittleRobotEndStepEvent;
 import model.events.RobotDestroyEvent;
 import model.events.RobotMoveEvent;
 import model.events.RobotTeleportEvent;
@@ -9,14 +10,15 @@ import model.field.Field;
 import model.field.fieldObjects.robot.LittleRobot;
 import model.field.fieldObjects.robot.Robot;
 import model.game.Game;
+import model.game.GameStatus;
 import model.listeners.ExitCellListener;
+import model.listeners.LittleRobotEndStepListener;
 import model.listeners.RobotDestroyListener;
 import model.listeners.RobotMoveListener;
 import org.jetbrains.annotations.NotNull;
-import ui.field.cell.CellWidget;
-import ui.field.cell.ExitCellWidget;
-import ui.field.cell.cellItems.CellItemWidget;
 import ui.field.FieldWidget;
+import ui.field.cell.CellWidget;
+import ui.field.cell.cellItems.CellItemWidget;
 
 import javax.swing.*;
 import java.util.HashMap;
@@ -45,6 +47,7 @@ public class GameWidget extends JPanel {
             robot.addRobotMoveListener(0, robotController);
             if (robot instanceof LittleRobot) {
                 ((LittleRobot) robot).addRobotDestroyListener(0, robotController);
+                ((LittleRobot) robot).addRobotEndStepListener(new LittleRobotEndStepController());
             }
         }
     }
@@ -75,10 +78,10 @@ public class GameWidget extends JPanel {
             to.addItem(robotWidget);
             robotWidget.repaint();
 
-            //TODO баг с UI!!!!!!!!
+            /*//баг с UI!!!!!!!!
             if (e.getRobot() instanceof LittleRobot && !(to instanceof ExitCellWidget)) {
                 robotWidget.requestFocusInWindow();
-            }
+            }*/
         }
     }
 
@@ -91,6 +94,17 @@ public class GameWidget extends JPanel {
             CellWidget teleportWidget = _fields.get(_game.getGameField()).getWidgetFactory().getWidget(teleport);
             CellItemWidget robotWidget = _fields.get(_game.getGameField()).getWidgetFactory().getWidget(robot);
             teleportWidget.removeItem(robotWidget);
+        }
+    }
+
+    private class LittleRobotEndStepController implements LittleRobotEndStepListener {
+
+        @Override
+        public void littleRobotEndedStep(LittleRobotEndStepEvent e) {
+            if (_game.getGameStatus() == GameStatus.GAME_IS_ON) {
+                CellItemWidget robotWidget = _fields.get(_game.getGameField()).getWidgetFactory().getWidget((LittleRobot) e.getSource());
+                robotWidget.requestFocusInWindow();
+            }
         }
     }
 }
