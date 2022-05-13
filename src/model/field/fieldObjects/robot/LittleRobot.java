@@ -21,7 +21,7 @@ public class LittleRobot extends Robot implements Destroyable {
         boolean isSuccessfulStep = super.makeStep(direction);
         if (!isSuccessfulStep) {
             if (_position.getWallSegment(direction) == null && _position.getNeighbourCell(direction) != null
-                    &&_position.getNeighbourCell(direction).getRobot() instanceof BigRobot) {
+                    && _position.getNeighbourCell(direction).getRobot() instanceof BigRobot) {
                 destroy();
                 isSuccessfulStep = true;
             }

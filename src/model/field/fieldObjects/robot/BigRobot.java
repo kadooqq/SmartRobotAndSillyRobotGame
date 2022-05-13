@@ -47,16 +47,15 @@ public class BigRobot extends Robot implements LittleRobotEndStepListener {
 
     // ----------------------------------------------- Перемещение -----------------------------------------------------
     private void makeStep() {
-        if (_characteristic != null && _characteristic instanceof ViscosityCharacteristic && _numOfStepsWithCharacteristic > 0
-                || _target == null) {
-            if (_numOfStepsWithCharacteristic > 0) {
-                --_numOfStepsWithCharacteristic;
-            }
+        if (_characteristic != null && _characteristic instanceof ViscosityCharacteristic && _numOfStepsWithCharacteristic > 0) {
+            --_numOfStepsWithCharacteristic;
             if (_numOfStepsWithCharacteristic == 0) {
                 _characteristic = null;
             }
             return;
         }
+        if (_target == null) return;
+
         Direction directionToMove = calculateStepDirection(((LittleRobot) _target).getPosition());
         if (!super.makeStep(directionToMove) && directionToMove != null
                 && _position.getNeighbourCell(directionToMove) == ((LittleRobot) _target).getPosition()) {
