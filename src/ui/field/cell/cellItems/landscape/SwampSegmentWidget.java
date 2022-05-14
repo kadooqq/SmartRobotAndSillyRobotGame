@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class SwampSegmentWidget extends LandscapeSegmentWidget {
+    private static File imageFile = null;
     @Override
     protected BufferedImage getImage() {
         BufferedImage image = null;

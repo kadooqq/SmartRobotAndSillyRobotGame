@@ -6,12 +6,9 @@ import ui.utils.ImageUtils;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 public abstract class LandscapeSegmentWidget extends CellItemWidget {
-    protected static File imageFile = null;
-
     @Override
     protected BufferedImage getImage() {
         BufferedImage image = null;
