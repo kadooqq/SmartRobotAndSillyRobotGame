@@ -18,8 +18,17 @@ public class CellWidget extends JPanel {
     private static final int CELL_SIZE = 120;
 
     private enum Layer {
-        TOP,
-        BOTTOM
+        TOP(0),
+        BOTTOM(-1);
+
+        private final int _value;
+        Layer(int value) {
+            _value = value;
+        }
+
+        public int getValue() {
+            return _value;
+        }
     }
 
     private final HashMap<Layer, CellItemWidget> _widgetItems = new HashMap<>();
@@ -41,12 +50,14 @@ public class CellWidget extends JPanel {
     }
 
     public void removeItem(CellItemWidget widgetItem) {
+        Layer itemLayer = null;
         for (var item : _widgetItems.entrySet()) {
             if (widgetItem == item.getValue()) {
-                remove(item.getKey() == Layer.TOP ? 0 : -1);
-                _widgetItems.remove(item.getKey());
-                repaint();
+                itemLayer = item.getKey();
             }
         }
+        _widgetItems.remove(itemLayer);
+        remove(itemLayer.getValue());
+        repaint();
     }
 }
