@@ -62,8 +62,6 @@ public class BigRobot extends Robot implements LittleRobotEndStepListener {
             processMoveCharacteristic();
             if (_characteristic instanceof ViscosityCharacteristic) {
                 return false;
-            } else if (_characteristic instanceof SlipperinessCharacteristic) {
-                processMoveCharacteristic();
             }
         }
 

@@ -29,8 +29,6 @@ public class LittleRobot extends Robot implements Destroyable {
             if (_characteristic instanceof ViscosityCharacteristic) {
                 fireLittleRobotEndStep();
                 return false;
-            } else if (_characteristic instanceof SlipperinessCharacteristic) {
-                processMoveCharacteristic();
             }
         }
 
