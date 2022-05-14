@@ -1,16 +1,24 @@
 package model.field.fieldObjects.robot.moveCharacteristics;
 
 public abstract class MoveCharacteristic {
-    public MoveCharacteristic(double coefficient) {
-        if (coefficient < 0) {
+    public MoveCharacteristic(int lifeTime) {
+        if (lifeTime < 0) {
             throw new IllegalArgumentException("Невозможно создать характеристику ландшафта отрицательной");
         }
-        _coefficient = coefficient;
+        _lifeTime = lifeTime;
     }
 
-    private double _coefficient;
+    private double _lifeTime;
 
-    public double getCoefficient() {
-        return _coefficient;
+    public double getLifeTime() {
+        return _lifeTime;
+    }
+
+    public boolean decrementLifeTime() {
+        if (_lifeTime > 0) {
+            _lifeTime--;
+            return true;
+        }
+        return false;
     }
 }

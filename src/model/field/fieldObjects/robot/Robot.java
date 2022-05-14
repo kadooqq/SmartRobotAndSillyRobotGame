@@ -6,6 +6,7 @@ import model.field.Direction;
 import model.field.fieldObjects.CellItem;
 import model.field.fieldObjects.landscape.LandscapeSegment;
 import model.field.fieldObjects.robot.moveCharacteristics.MoveCharacteristic;
+import model.field.fieldObjects.robot.moveCharacteristics.SlipperinessCharacteristic;
 import model.listeners.RobotMoveListener;
 
 import java.util.ArrayList;
@@ -67,23 +68,22 @@ public abstract class Robot extends CellItem {
 
     // ----------------------------------------------- Работа с ландшафтом ---------------------------------------------
     protected MoveCharacteristic _characteristic = null;
-    protected int _numOfStepsWithCharacteristic = 0;
 
     protected abstract void processIfLandscapeSegment();
 
     protected void processMoveCharacteristic() {
-        if (_characteristic != null && _numOfStepsWithCharacteristic == 0) {
+        if (_characteristic == null) return;
+        if (_characteristic.getLifeTime() == 0) {
             _characteristic = null;
         }
-        if (_numOfStepsWithCharacteristic > 0) {
-            --_numOfStepsWithCharacteristic;
+        if (_characteristic != null) {
+            do {} while (_characteristic.decrementLifeTime() && _characteristic instanceof SlipperinessCharacteristic);
         }
     }
 
     protected void setLandscapeCharacteristic(MoveCharacteristic characteristic) {
         if (characteristic == null) return;
         _characteristic = characteristic;
-        _numOfStepsWithCharacteristic = (int) Math.floor(_characteristic.getCoefficient());
     }
 
     protected abstract MoveCharacteristic createMoveCharacteristic(LandscapeSegment landscapeSegment);
