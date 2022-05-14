@@ -10,8 +10,6 @@ import java.io.File;
 import java.io.IOException;
 
 public abstract class LandscapeSegmentWidget extends CellItemWidget {
-    protected Color _color;
-
     protected static File imageFile = null;
 
     @Override

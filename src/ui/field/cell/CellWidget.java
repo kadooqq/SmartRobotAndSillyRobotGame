@@ -37,16 +37,10 @@ public class CellWidget extends JPanel {
         if (_widgetItems.size() > 2)
             throw new IllegalArgumentException("Попытка установить в ячейку более двух виджетов");
 
-        int index = -1;
-        Layer layer = Layer.BOTTOM;
-
-        if (widgetItem instanceof RobotWidget) {
-            index = 0;
-            layer = Layer.TOP;
-        }
+        Layer layer = widgetItem instanceof RobotWidget ? layer = Layer.TOP : Layer.BOTTOM;
 
         _widgetItems.put(layer, widgetItem);
-        add(widgetItem, index);
+        add(widgetItem, layer.getValue());
     }
 
     public void removeItem(CellItemWidget widgetItem) {
