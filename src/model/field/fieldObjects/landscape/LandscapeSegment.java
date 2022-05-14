@@ -3,16 +3,9 @@ package model.field.fieldObjects.landscape;
 import model.field.Cell;
 import model.field.ExitCell;
 import model.field.fieldObjects.CellItem;
-import model.field.fieldObjects.landscape.characteristics.LandscapeCharacteristic;
 
 public abstract class LandscapeSegment extends CellItem {
     protected Cell _position = null;
-
-    protected LandscapeSegment(double characteristicCoefficient) {
-        if (characteristicCoefficient < 0) {
-            throw new IllegalArgumentException("Невозможно создать характеристику ландшафта отрицательной");
-        }
-    }
 
     public boolean setPosition(Cell position) {
         if (canBeLocatedAtPosition(position))
@@ -23,13 +16,6 @@ public abstract class LandscapeSegment extends CellItem {
     }
 
     public boolean canBeLocatedAtPosition(Cell position) {
-        if (position instanceof ExitCell) return false;
-        return true;
-    }
-
-    protected LandscapeCharacteristic _characteristic = null;
-
-    public LandscapeCharacteristic getCharacteristic() {
-        return _characteristic;
+        return !(position instanceof ExitCell);
     }
 }

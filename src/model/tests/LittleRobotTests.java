@@ -210,7 +210,7 @@ public class LittleRobotTests {
         Assertions.assertEquals(field.getCell(littleRobotStartPosition).getRobot(), robot);
 
         // Установить справа болото
-        field.getCell(littleRobotStartPosition.getNeighbourPoint(Direction.EAST)).setLandscapeSegment(new SwampSegment(1));
+        field.getCell(littleRobotStartPosition.getNeighbourPoint(Direction.EAST)).setLandscapeSegment(new SwampSegment());
 
         // Переместиться в ячейку с болотом
         Assertions.assertTrue(robot.makeStep(Direction.EAST));

@@ -132,7 +132,7 @@ public class CellTests {
     @Test
     public void setAndGetLandscapeSegmentTest() {
         Cell cell = new Cell(new MyPoint(0, 0));
-        SwampSegment swampSegment = new SwampSegment(1);
+        SwampSegment swampSegment = new SwampSegment();
         cell.setLandscapeSegment(swampSegment);
 
         Assertions.assertEquals(swampSegment, cell.getLandscapeSegment());

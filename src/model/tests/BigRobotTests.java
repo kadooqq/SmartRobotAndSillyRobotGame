@@ -132,7 +132,7 @@ public class BigRobotTests {
 
         bigRobot.setTarget(littleRobot);
         field.getCell(new MyPoint(1, 1)).setRobot(bigRobot);
-        field.getCell(new MyPoint(2, 1)).setLandscapeSegment(new SwampSegment(3));
+        field.getCell(new MyPoint(2, 1)).setLandscapeSegment(new SwampSegment());
 
         littleRobot.addRobotEndStepListener(bigRobot);
 

@@ -4,6 +4,7 @@ import model.events.RobotMoveEvent;
 import model.field.Cell;
 import model.field.Direction;
 import model.field.fieldObjects.CellItem;
+import model.field.fieldObjects.robot.moveCharacteristics.MoveCharacteristic;
 import model.listeners.RobotMoveListener;
 
 import java.util.ArrayList;
@@ -64,7 +65,24 @@ public abstract class Robot extends CellItem {
     }
 
     // ----------------------------------------------- Работа с ландшафтом ---------------------------------------------
+    protected MoveCharacteristic _characteristic = null;
+    protected int _numOfStepsWithCharacteristic = 0;
+
     protected abstract void processIfLandscapeSegment();
+
+    protected void processMoveCharacteristic() {
+        if (_characteristic != null && _numOfStepsWithCharacteristic == 0) {
+            _characteristic = null;
+        }
+        if (_numOfStepsWithCharacteristic > 0) {
+            --_numOfStepsWithCharacteristic;
+        }
+    }
+
+    protected void setLandscapeCharacteristic(MoveCharacteristic characteristic) {
+        _characteristic = characteristic;
+        _numOfStepsWithCharacteristic = (int) Math.floor(_characteristic.getCoefficient());
+    }
 
     // ----------------------------------------------- Генерация события при перемещении -------------------------------
     private final List<RobotMoveListener> _moveListeners = new ArrayList<>();
@@ -89,5 +107,10 @@ public abstract class Robot extends CellItem {
             e.setToCell(toCell);
             l.robotMadeMove(e);
         }
+    }
+
+    // ----------------------------------------------- Коэффициенты характеристик передвижения -------------------------
+    protected static class MoveCharacteristicCoefficients {
+        protected static int SwampViscosityCoefficient = 0;
     }
 }

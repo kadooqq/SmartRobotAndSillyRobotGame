@@ -33,7 +33,7 @@ public class LittleRobot extends Robot implements Destroyable {
     // ----------------------------------------------- Работа с ландшафтом ---------------------------------------------
     @Override
     protected void processIfLandscapeSegment() {
-        if (_position != null && _position.getLandscapeSegment() != null && _position.getLandscapeSegment() instanceof SwampSegment) {
+        if (_position != null && _position.getLandscapeSegment() instanceof SwampSegment) {
             destroy();
         }
     }
