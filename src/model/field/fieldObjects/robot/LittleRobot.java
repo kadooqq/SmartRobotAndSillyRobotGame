@@ -29,15 +29,22 @@ public class LittleRobot extends Robot implements Destroyable {
             if (_characteristic instanceof ViscosityCharacteristic) {
                 fireLittleRobotEndStep();
                 return false;
+            } else if (_characteristic instanceof SlipperinessCharacteristic) {
+                processMoveCharacteristic();
             }
         }
 
-        boolean isSuccessfulStep = super.makeStep(direction);
-        if (!isSuccessfulStep) {
-            if (_position.getWallSegment(direction) == null && _position.getNeighbourCell(direction) != null
-                    && _position.getNeighbourCell(direction).getRobot() instanceof BigRobot) {
-                destroy();
-                isSuccessfulStep = true;
+        boolean isFirstStep = true;
+        boolean isSuccessfulStep = false;
+        for (int i = 0; i < 2 && (isFirstStep || _characteristic instanceof SlipperinessCharacteristic); ++i) {
+            isFirstStep = false;
+            isSuccessfulStep = super.makeStep(direction);
+            if (!isSuccessfulStep) {
+                if (_position.getWallSegment(direction) == null && _position.getNeighbourCell(direction) != null
+                        && _position.getNeighbourCell(direction).getRobot() instanceof BigRobot) {
+                    destroy();
+                    return true;
+                }
             }
         }
         fireLittleRobotEndStep();

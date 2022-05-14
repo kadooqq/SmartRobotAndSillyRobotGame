@@ -62,17 +62,25 @@ public class BigRobot extends Robot implements LittleRobotEndStepListener {
             processMoveCharacteristic();
             if (_characteristic instanceof ViscosityCharacteristic) {
                 return false;
+            } else if (_characteristic instanceof SlipperinessCharacteristic) {
+                processMoveCharacteristic();
             }
         }
 
-        if (!super.makeStep(direction) && direction != null) {
-            if (_target != null && _position.getNeighbourCell(direction) == ((LittleRobot) _target).getPosition()) {
-                catchTarget();
-                return true;
+        boolean isFirstStep = true;
+        boolean isSuccessfulStep = false;
+        for (int i = 0; i < 2 && (isFirstStep || _characteristic instanceof SlipperinessCharacteristic); ++i) {
+            isFirstStep = false;
+            isSuccessfulStep = super.makeStep(direction);
+            if (!isSuccessfulStep && direction != null) {
+                if (_target != null && _position.getNeighbourCell(direction) == ((LittleRobot) _target).getPosition()) {
+                    catchTarget();
+                    return true;
+                }
             }
-            return false;
         }
-        return true;
+
+        return isSuccessfulStep;
     }
 
     private Direction calculateStepDirection(Cell targetPosition) {
