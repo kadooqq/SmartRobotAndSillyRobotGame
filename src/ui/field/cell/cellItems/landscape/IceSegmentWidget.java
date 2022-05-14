@@ -23,7 +23,7 @@ public class IceSegmentWidget extends LandscapeSegmentWidget {
     @Override
     protected File getImageFile() {
         if (imageFile == null) {
-            imageFile = new File(ImageUtils.IMAGE_PATH + "Ice.png");
+            imageFile = new File(ImageUtils.IMAGE_PATH + ImageUtils.ICE_IMAGE);
         }
         return imageFile;
     }

@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import ui.field.FieldWidget;
 import ui.field.cell.CellWidget;
 import ui.field.cell.cellItems.CellItemWidget;
+import ui.field.cell.cellItems.robots.LittleRobotWidget;
 
 import javax.swing.*;
 import java.util.HashMap;
@@ -64,7 +65,7 @@ public class GameWidget extends JPanel {
             CellItemWidget robotWidget = _fields.get(_game.getGameField()).getWidgetFactory().getWidget(e.getDestroyedRobot());
             CellWidget cellWhereDestroyedWidget = _fields.get(_game.getGameField()).getWidgetFactory().getWidget(e.getCellWhereDestroyed());
 
-            cellWhereDestroyedWidget.removeItem(robotWidget);
+            ((LittleRobotWidget)robotWidget).setDestroyedRobotImage();
 
             robotWidget.repaint();
         }

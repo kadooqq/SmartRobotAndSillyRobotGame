@@ -38,8 +38,8 @@ public class WallSegmentWidget extends JPanel {
 
     protected File getImageFile() {
         switch(_orientation) {
-            case VERTICAL -> {if (_verticalWallFile == null) _verticalWallFile = new File(ImageUtils.IMAGE_PATH + "VerticalWall.png");}
-            case HORIZONTAL -> {if (_horizontalWallFile == null) _horizontalWallFile = new File(ImageUtils.IMAGE_PATH + "HorizontalWall.png");}
+            case VERTICAL -> {if (_verticalWallFile == null) _verticalWallFile = new File(ImageUtils.IMAGE_PATH + ImageUtils.VERTICAL_WALL_IMAGE);}
+            case HORIZONTAL -> {if (_horizontalWallFile == null) _horizontalWallFile = new File(ImageUtils.IMAGE_PATH + ImageUtils.HORIZONTAL_WALL_IMAGE);}
         }
         return (_orientation == Orientation.VERTICAL) ? _verticalWallFile
                 : _horizontalWallFile;

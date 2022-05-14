@@ -23,7 +23,7 @@ public class SandSegmentWidget extends LandscapeSegmentWidget {
     @Override
     protected File getImageFile() {
         if (imageFile == null) {
-            imageFile = new File(ImageUtils.IMAGE_PATH + "Sand.png");
+            imageFile = new File(ImageUtils.IMAGE_PATH + ImageUtils.SAND_IMAGE);
         }
         return imageFile;
     }

@@ -16,7 +16,7 @@ public class BigRobotWidget extends RobotWidget {
 
     @Override
     protected File getImageFile() {
-        return new File(ImageUtils.IMAGE_PATH + "BigRobot.png");
+        return new File(ImageUtils.IMAGE_PATH + ImageUtils.BIG_ROBOT_IMAGE);
     }
 
     @Override

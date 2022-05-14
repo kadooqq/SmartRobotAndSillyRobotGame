@@ -14,8 +14,17 @@ public class ImageUtils {
 
         return bufferedImage;
     }
+    public static final Color BACKGROUND_COLOR = Color.decode("#9B9B9B");
 
     public static final String IMAGE_PATH = "resources/";
 
-    public static final Color BACKGROUND_COLOR = Color.decode("#9B9B9B");
+    public static final String LITTLE_ROBOT_IMAGE = "LittleRobot.png";
+    public static final String BIG_ROBOT_IMAGE = "BigRobot.png";
+    public static final String BROKEN_ROBOT_IMAGE = "BrokenRobot.png";
+    public static final String SWAMP_IMAGE = "Swamp.png";
+    public static final String ICE_IMAGE = "Ice.png";
+    public static final String SAND_IMAGE = "Sand.png";
+    public static final String VERTICAL_WALL_IMAGE = "VerticalWall.png";
+    public static final String HORIZONTAL_WALL_IMAGE = "HorizontalWall.png";
+
 }

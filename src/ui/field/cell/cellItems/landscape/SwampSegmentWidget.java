@@ -23,7 +23,7 @@ public class SwampSegmentWidget extends LandscapeSegmentWidget {
     @Override
     protected File getImageFile() {
         if (imageFile == null) {
-            imageFile = new File(ImageUtils.IMAGE_PATH + "Swamp.png");
+            imageFile = new File(ImageUtils.IMAGE_PATH + ImageUtils.SWAMP_IMAGE);
         }
         return imageFile;
     }

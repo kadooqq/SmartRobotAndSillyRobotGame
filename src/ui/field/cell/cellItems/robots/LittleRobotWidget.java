@@ -21,9 +21,15 @@ public class LittleRobotWidget extends RobotWidget {
         addKeyListener(new KeyController());
     }
 
+    private File _imageFile = new File(ImageUtils.IMAGE_PATH + ImageUtils.LITTLE_ROBOT_IMAGE);
+
+    public void setDestroyedRobotImage() {
+        _imageFile = new File(ImageUtils.IMAGE_PATH + ImageUtils.BROKEN_ROBOT_IMAGE);
+    }
+
     @Override
     protected File getImageFile() {
-        return new File(ImageUtils.IMAGE_PATH + "LittleRobot.png");
+        return _imageFile;
     }
 
     @Override
