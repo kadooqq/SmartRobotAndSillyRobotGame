@@ -5,7 +5,13 @@ import model.events.RobotDestroyEvent;
 import model.field.Cell;
 import model.field.Direction;
 import model.field.fieldObjects.Destroyable;
+import model.field.fieldObjects.landscape.IceSegment;
+import model.field.fieldObjects.landscape.LandscapeSegment;
+import model.field.fieldObjects.landscape.SandSegment;
 import model.field.fieldObjects.landscape.SwampSegment;
+import model.field.fieldObjects.robot.moveCharacteristics.MoveCharacteristic;
+import model.field.fieldObjects.robot.moveCharacteristics.SlipperinessCharacteristic;
+import model.field.fieldObjects.robot.moveCharacteristics.ViscosityCharacteristic;
 import model.listeners.LittleRobotEndStepListener;
 import model.listeners.RobotDestroyListener;
 
@@ -18,6 +24,14 @@ public class LittleRobot extends Robot implements Destroyable {
 
     @Override
     public boolean makeStep(Direction direction) {
+        if (_characteristic != null) {
+            processMoveCharacteristic();
+            if (_characteristic instanceof ViscosityCharacteristic) {
+                fireLittleRobotEndStep();
+                return false;
+            }
+        }
+
         boolean isSuccessfulStep = super.makeStep(direction);
         if (!isSuccessfulStep) {
             if (_position.getWallSegment(direction) == null && _position.getNeighbourCell(direction) != null
@@ -33,9 +47,20 @@ public class LittleRobot extends Robot implements Destroyable {
     // ----------------------------------------------- Работа с ландшафтом ---------------------------------------------
     @Override
     protected void processIfLandscapeSegment() {
-        if (_position != null && _position.getLandscapeSegment() instanceof SwampSegment) {
+        if (_position == null) return;
+        setLandscapeCharacteristic(createMoveCharacteristic(_position.getLandscapeSegment()));
+        if (_position.getLandscapeSegment() instanceof SwampSegment) {
             destroy();
         }
+    }
+
+    protected MoveCharacteristic createMoveCharacteristic(LandscapeSegment landscapeSegment) {
+        if (_position.getLandscapeSegment() instanceof SandSegment) {
+            return new ViscosityCharacteristic(MoveCharacteristicCoefficients.SandViscosityCoefficient);
+        } else if (_position.getLandscapeSegment() instanceof IceSegment) {
+            return new SlipperinessCharacteristic(MoveCharacteristicCoefficients.IceSlipperinessCoefficient);
+        }
+        return null;
     }
 
     // ----------------------------------------------- Уничтожение -----------------------------------------------------
@@ -91,5 +116,11 @@ public class LittleRobot extends Robot implements Destroyable {
         for (LittleRobotEndStepListener l : _endStepListeners) {
             l.littleRobotEndedStep(new LittleRobotEndStepEvent(this));
         }
+    }
+
+    // ----------------------------------------------- Коэффициенты характеристик передвижения -------------------------
+    protected static class MoveCharacteristicCoefficients {
+        protected static int SandViscosityCoefficient = 1;
+        protected static int IceSlipperinessCoefficient = 1;
     }
 }

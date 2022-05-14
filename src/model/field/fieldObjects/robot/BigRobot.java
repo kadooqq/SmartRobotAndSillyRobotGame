@@ -5,7 +5,12 @@ import model.field.Cell;
 import model.field.Direction;
 import model.field.MyPoint;
 import model.field.fieldObjects.Destroyable;
+import model.field.fieldObjects.landscape.IceSegment;
+import model.field.fieldObjects.landscape.LandscapeSegment;
+import model.field.fieldObjects.landscape.SandSegment;
 import model.field.fieldObjects.landscape.SwampSegment;
+import model.field.fieldObjects.robot.moveCharacteristics.MoveCharacteristic;
+import model.field.fieldObjects.robot.moveCharacteristics.SlipperinessCharacteristic;
 import model.field.fieldObjects.robot.moveCharacteristics.ViscosityCharacteristic;
 import model.gameStuff.PathFinder;
 import model.listeners.LittleRobotEndStepListener;
@@ -93,9 +98,20 @@ public class BigRobot extends Robot implements LittleRobotEndStepListener {
 
     @Override
     protected void processIfLandscapeSegment() {
+        if (_position == null) return;
+        setLandscapeCharacteristic(createMoveCharacteristic(_position.getLandscapeSegment()));
+    }
+
+    protected MoveCharacteristic createMoveCharacteristic(LandscapeSegment landscapeSegment) {
         if (_position.getLandscapeSegment() instanceof SwampSegment) {
-            setLandscapeCharacteristic(new ViscosityCharacteristic(MoveCharacteristicCoefficients.SwampViscosityCoefficient));
+            return new ViscosityCharacteristic(MoveCharacteristicCoefficients.SwampViscosityCoefficient);
+        } else if (_position.getLandscapeSegment() instanceof SandSegment) {
+            return new ViscosityCharacteristic(MoveCharacteristicCoefficients.SandViscosityCoefficient);
+        } else if (_position.getLandscapeSegment() instanceof IceSegment) {
+            return new SlipperinessCharacteristic(MoveCharacteristicCoefficients.IceSlipperinessCoefficient);
         }
+
+        return null;
     }
 
     // ----------------------------------------------- Наблюдение за перемещением маленького робота --------------------
@@ -107,5 +123,7 @@ public class BigRobot extends Robot implements LittleRobotEndStepListener {
     // ----------------------------------------------- Коэффициенты характеристик передвижения -------------------------
     protected static class MoveCharacteristicCoefficients {
         protected static int SwampViscosityCoefficient = 3;
+        protected static int SandViscosityCoefficient = 1;
+        protected static int IceSlipperinessCoefficient = 1;
     }
 }

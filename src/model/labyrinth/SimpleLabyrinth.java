@@ -2,6 +2,7 @@ package model.labyrinth;
 
 import model.field.Direction;
 import model.field.Field;
+import model.field.fieldObjects.landscape.SandSegment;
 import model.field.fieldObjects.landscape.SwampSegment;
 import model.field.fieldObjects.robot.BigRobot;
 import model.field.fieldObjects.robot.LittleRobot;
@@ -52,5 +53,6 @@ public class SimpleLabyrinth extends Labyrinth {
         setLandscapeSegment(field, new MyPoint(2, 3), new SwampSegment());
         setLandscapeSegment(field, new MyPoint(3, 3), new SwampSegment());
         setLandscapeSegment(field, new MyPoint(6, 5), new SwampSegment());
+        setLandscapeSegment(field, new MyPoint(1, 2), new SandSegment());
     }
 }

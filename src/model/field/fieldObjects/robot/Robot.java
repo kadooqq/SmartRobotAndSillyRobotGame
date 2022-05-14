@@ -4,6 +4,7 @@ import model.events.RobotMoveEvent;
 import model.field.Cell;
 import model.field.Direction;
 import model.field.fieldObjects.CellItem;
+import model.field.fieldObjects.landscape.LandscapeSegment;
 import model.field.fieldObjects.robot.moveCharacteristics.MoveCharacteristic;
 import model.listeners.RobotMoveListener;
 
@@ -80,9 +81,12 @@ public abstract class Robot extends CellItem {
     }
 
     protected void setLandscapeCharacteristic(MoveCharacteristic characteristic) {
+        if (characteristic == null) return;
         _characteristic = characteristic;
         _numOfStepsWithCharacteristic = (int) Math.floor(_characteristic.getCoefficient());
     }
+
+    protected abstract MoveCharacteristic createMoveCharacteristic(LandscapeSegment landscapeSegment);
 
     // ----------------------------------------------- Генерация события при перемещении -------------------------------
     private final List<RobotMoveListener> _moveListeners = new ArrayList<>();
@@ -112,5 +116,7 @@ public abstract class Robot extends CellItem {
     // ----------------------------------------------- Коэффициенты характеристик передвижения -------------------------
     protected static class MoveCharacteristicCoefficients {
         protected static int SwampViscosityCoefficient = 0;
+        protected static int SandViscosityCoefficient = 0;
+        protected static int IceSlipperinessCoefficient = 0;
     }
 }
