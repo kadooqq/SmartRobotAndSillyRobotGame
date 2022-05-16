@@ -17,7 +17,7 @@ public class CellWidget extends JPanel {
 
     private static final int CELL_SIZE = 120;
 
-    private enum Layer {
+    public enum Layer {
         TOP(0),
         BOTTOM(-1);
 
@@ -37,13 +37,18 @@ public class CellWidget extends JPanel {
         if (_widgetItems.size() > 2)
             throw new IllegalArgumentException("Попытка установить в ячейку более двух виджетов");
 
-        Layer layer = widgetItem instanceof RobotWidget ? layer = Layer.TOP : Layer.BOTTOM;
+        Layer layer = widgetItem instanceof RobotWidget ? Layer.TOP : Layer.BOTTOM;
 
         _widgetItems.put(layer, widgetItem);
         add(widgetItem, layer.getValue());
     }
 
+    public CellItemWidget getItem(Layer layer) {
+        return _widgetItems.get(layer);
+    }
+
     public void removeItem(CellItemWidget widgetItem) {
+        if (widgetItem == null) return;
         Layer itemLayer = null;
         for (var item : _widgetItems.entrySet()) {
             if (widgetItem == item.getValue()) {
@@ -51,7 +56,7 @@ public class CellWidget extends JPanel {
             }
         }
         _widgetItems.remove(itemLayer);
-        remove(itemLayer.getValue());
+        remove(_widgetItems.size() == 2 ? (itemLayer.getValue() + 1) : 0);
         repaint();
     }
 }
