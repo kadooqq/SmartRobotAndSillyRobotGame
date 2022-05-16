@@ -8,7 +8,7 @@ public abstract class LandscapeSegment extends CellItem {
     protected Cell _position = null;
 
     public boolean setPosition(Cell position) {
-        if (canBeLocatedAtPosition(position))
+        if (!canBeLocatedAtPosition(position)) return false;
         if (_position == position) return true;
         _position = position;
         position.setLandscapeSegment(this);
