@@ -56,7 +56,7 @@ public class CellWidget extends JPanel {
             }
         }
         _widgetItems.remove(itemLayer);
-        remove(_widgetItems.size() == 2 ? (itemLayer.getValue() + 1) : 0);
+        remove(widgetItem);
         repaint();
     }
 }
