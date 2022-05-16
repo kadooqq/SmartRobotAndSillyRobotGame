@@ -39,18 +39,14 @@ public class WidgetFactory extends JPanel {
         Robot robot = cell.getRobot();
         if (robot != null) {
             CellItemWidget robotWidget = create(robot);
-            cellWidget.add(robotWidget);
             cellWidget.addItem(robotWidget);
         }
 
         LandscapeSegment landscapeSegment = cell.getLandscapeSegment();
         if (landscapeSegment != null) {
             CellItemWidget landscapeSegmentWidget = create(landscapeSegment);
-            cellWidget.add(landscapeSegmentWidget);
             cellWidget.addItem(landscapeSegmentWidget);
         }
-
-
 
         _cells.put(cell, cellWidget);
         return cellWidget;
