@@ -32,10 +32,12 @@ public class ExitCell extends Cell implements RobotMoveListener {
     private final List<ExitCellListener> _listeners = new ArrayList<>();
 
     public void addExitCellListener(ExitCellListener l) {
+        if (l == null) return;
         _listeners.add(l);
     }
 
     public void addExitCellListener(int index, ExitCellListener l) {
+        if (l == null) return;
         _listeners.add(index, l);
     }
 

@@ -85,10 +85,12 @@ public class LittleRobot extends Robot implements Destroyable {
     private final List<RobotDestroyListener> _destroyListeners = new ArrayList<>();
 
     public void addRobotDestroyListener(RobotDestroyListener l) {
+        if (l == null) return;
         _destroyListeners.add(l);
     }
 
     public void addRobotDestroyListener(int index, RobotDestroyListener l) {
+        if (l == null) return;
         _destroyListeners.add(index, l);
     }
 
@@ -110,10 +112,12 @@ public class LittleRobot extends Robot implements Destroyable {
     private final List<LittleRobotEndStepListener> _endStepListeners = new ArrayList<>();
 
     public void addRobotEndStepListener(LittleRobotEndStepListener l) {
+        if (l == null) return;
         _endStepListeners.add(l);
     }
 
     public void addRobotEndStepListener(int index, LittleRobotEndStepListener l) {
+        if (l == null) return;
         _endStepListeners.add(index, l);
     }
 

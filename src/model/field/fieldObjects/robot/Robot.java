@@ -146,10 +146,12 @@ public abstract class Robot extends CellItem implements WeatherChangeListener {
     private final List<RobotMoveListener> _moveListeners = new ArrayList<>();
 
     public void addRobotMoveListener(RobotMoveListener l) {
+        if (l == null) return;
         _moveListeners.add(l);
     }
 
     public void addRobotMoveListener(int index, RobotMoveListener l) {
+        if (l == null) return;
         _moveListeners.add(index, l);
     }
 
