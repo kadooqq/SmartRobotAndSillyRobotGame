@@ -27,7 +27,7 @@ public class SimpleLabyrinth extends Labyrinth {
     @Override
     protected void addRobots(Field field) {
         LittleRobot littleRobot = new LittleRobot();
-        MyPoint littleRobotPosition = new MyPoint(5, 5);
+        MyPoint littleRobotPosition = new MyPoint(1, 1);
         setRobot(field, littleRobotPosition, littleRobot);
 
         BigRobot bigRobot = new BigRobot();
@@ -55,12 +55,8 @@ public class SimpleLabyrinth extends Labyrinth {
         setLandscapeSegment(field, new MyPoint(3, 3), new SwampSegment());
         setLandscapeSegment(field, new MyPoint(6, 5), new SwampSegment());
 
-        setLandscapeSegment(field, new MyPoint(3, 4), new IceSegment());
-        setLandscapeSegment(field, new MyPoint(2, 4), new IceSegment());
-        setLandscapeSegment(field, new MyPoint(6, 7), new IceSegment());
-        setLandscapeSegment(field, new MyPoint(6, 8), new IceSegment());
-        setLandscapeSegment(field, new MyPoint(5, 7), new IceSegment());
-
         setLandscapeSegment(field, new MyPoint(6, 6), new SandSegment());
+
+        setLandscapeSegment(field, new MyPoint(9, 9), new IceSegment());
     }
 }
