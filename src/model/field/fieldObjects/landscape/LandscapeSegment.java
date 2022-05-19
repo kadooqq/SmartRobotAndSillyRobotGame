@@ -11,7 +11,9 @@ public abstract class LandscapeSegment extends CellItem {
         if (!canBeLocatedAtPosition(position)) return false;
         if (_position == position) return true;
         _position = position;
-        position.setLandscapeSegment(this);
+        if (_position != null) {
+            position.setLandscapeSegment(this);
+        }
         return true;
     }
 
