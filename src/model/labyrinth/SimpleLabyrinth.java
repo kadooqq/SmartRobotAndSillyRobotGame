@@ -7,9 +7,7 @@ import model.field.fieldObjects.WallSegment;
 import model.field.fieldObjects.landscape.IceSegment;
 import model.field.fieldObjects.landscape.SandSegment;
 import model.field.fieldObjects.landscape.SwampSegment;
-import model.field.fieldObjects.robot.BigRobot;
 import model.field.fieldObjects.robot.LittleRobot;
-import model.gameStuff.PathFinder;
 
 public class SimpleLabyrinth extends Labyrinth {
 
@@ -30,12 +28,7 @@ public class SimpleLabyrinth extends Labyrinth {
         MyPoint littleRobotPosition = new MyPoint(1, 1);
         setRobot(field, littleRobotPosition, littleRobot);
 
-        BigRobot bigRobot = new BigRobot();
-        PathFinder pathFinder = new PathFinder(field);
-        bigRobot.setPathFinder(pathFinder);
-        bigRobot.setTarget(littleRobot);
-        MyPoint bigRobotPosition = new MyPoint(7, 5);
-        setRobot(field, bigRobotPosition, bigRobot);
+        addBigRobot(field, new MyPoint(7, 5), littleRobot);
     }
 
     @Override
