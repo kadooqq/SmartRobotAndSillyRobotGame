@@ -4,6 +4,7 @@ import model.events.LittleRobotEndStepEvent;
 import model.field.Cell;
 import model.field.Direction;
 import model.field.MyPoint;
+import model.field.fieldObjects.CellItem;
 import model.field.fieldObjects.Destroyable;
 import model.field.fieldObjects.landscape.IceSegment;
 import model.field.fieldObjects.landscape.LandscapeSegment;
@@ -39,6 +40,8 @@ public class BigRobot extends Robot implements LittleRobotEndStepListener {
     // ----------------------------------------------- Цель ------------------------------------------------------------
     private Destroyable _target = null;
 
+    private final int TARGET_SIGHT_DISTANCE = 2;
+
     public void setTarget(Destroyable target) {
         _target = target;
     }
@@ -49,61 +52,92 @@ public class BigRobot extends Robot implements LittleRobotEndStepListener {
         }
     }
 
+    private boolean checkIfTargetInNeighbourCell(Direction direction) {
+        return _target != null && _position.getNeighbourCell(direction) == getTargetPosition();
+    }
+
+    private Cell getTargetPosition() {
+        if (_target == null) return null;
+        return ((CellItem)_target).getPosition();
+    }
+
     // ----------------------------------------------- Перемещение -----------------------------------------------------
     private void makeStep() {
         if (_target == null) return;
-        Direction directionToMove = calculateStepDirection(((LittleRobot) _target).getPosition());
+        Direction directionToMove = calculateStepDirection(getTargetPosition());
         makeStep(directionToMove);
     }
 
     @Override
     protected boolean makeStep(Direction direction) {
-        if (_characteristic != null) {
-            processMoveCharacteristic();
-            if (_characteristic instanceof ViscosityCharacteristic) {
-                return false;
-            }
-        }
-
-        boolean isFirstStep = true;
         boolean isSuccessfulStep = false;
-        for (int i = 0; i < 2 && (isFirstStep || _characteristic instanceof SlipperinessCharacteristic); ++i) {
-            isFirstStep = false;
-            isSuccessfulStep = super.makeStep(direction);
+
+        boolean isRobotSlides;
+        do {
+            processBeforeMovingCharacteristic();
+
+            if (!canMoveAfterProcessingMoveCharacteristic()) return isSuccessfulStep;
+
+            isSuccessfulStep = super.makeStep(direction) || isSuccessfulStep;
+
+            processAfterMovingCharacteristic();
+
             if (!isSuccessfulStep && direction != null) {
-                if (_target != null && _position.getNeighbourCell(direction) == ((LittleRobot) _target).getPosition()) {
+                if (checkIfTargetInNeighbourCell(direction)) {
                     catchTarget();
                     return true;
                 }
             }
-        }
+
+            isRobotSlides = robotHasSlipperinessCharacteristic();
+        } while(isRobotSlides);
 
         return isSuccessfulStep;
     }
 
-    private Direction calculateStepDirection(Cell targetPosition) {
-        if (targetPosition == null) return null;
-        Direction directionToMove = null;
-        MyPoint distanceToTarget = _position.getDistanceFromCellToCell(targetPosition);
-        if (distanceToTarget.getX() <= 2 && distanceToTarget.getY() <= 2) {
-            var pathToMove = _pathFinder.findPath(getPosition(), targetPosition);
-            if (!pathToMove.isEmpty()) {
-                pathToMove.pop();
-                directionToMove = _position.getNeighbourDirection(pathToMove.pop());
-            }
+    private Direction calculateStepDirection(Cell cell) {
+        if (cell == null) return null;
+
+        MyPoint distanceToTarget = _position.getDistanceFromCellToCell(cell);
+
+        boolean isDistanceToTargetInRangeOfSight = distanceToTarget.getX() <= TARGET_SIGHT_DISTANCE
+                                                && distanceToTarget.getY() <= TARGET_SIGHT_DISTANCE;
+
+        Direction directionToMove;
+        if (isDistanceToTargetInRangeOfSight) {
+            directionToMove = getDirectionToMoveToCellUsingPathFinder(cell);
         } else {
-            Direction calculatedDirectionToMove = _position.getDirectionsToMove(targetPosition).pop();
-            if (calculatedDirectionToMove == Direction.EAST || calculatedDirectionToMove == Direction.WEST) {
-                directionToMove = calculatedDirectionToMove;
-            }
+            directionToMove = getDirectionToMoveHorizontally(cell);
         }
         return directionToMove;
+    }
+
+    private Direction getDirectionToMoveToCellUsingPathFinder(Cell cell) {
+        var pathToMove = _pathFinder.findPath(getPosition(), cell);
+
+        Direction directionToMove = null;
+        if (!pathToMove.isEmpty()) {
+            pathToMove.pop();
+            directionToMove = _position.getNeighbourDirection(pathToMove.pop());
+        }
+
+        return directionToMove;
+    }
+
+    private Direction getDirectionToMoveHorizontally(Cell cell) {
+        Direction calculatedDirectionToMove = _position.getDirectionsToMove(cell).pop();
+
+        if (calculatedDirectionToMove == Direction.EAST || calculatedDirectionToMove == Direction.WEST) {
+            return calculatedDirectionToMove;
+        }
+
+        return null;
     }
 
     // ----------------------------------------------- Работа с ландшафтом ---------------------------------------------
 
     @Override
-    protected void processIfLandscapeSegment() {
+    public void processIfLandscapeSegment() {
         if (_position == null) return;
         setLandscapeCharacteristic(createMoveCharacteristic(_position.getLandscapeSegment()));
     }
@@ -128,8 +162,8 @@ public class BigRobot extends Robot implements LittleRobotEndStepListener {
 
     // ----------------------------------------------- Коэффициенты характеристик передвижения -------------------------
     protected static class MoveCharacteristicCoefficients {
-        protected static int SwampViscosityCoefficient = 3;
-        protected static int SandViscosityCoefficient = 1;
-        protected static int IceSlipperinessCoefficient = 1;
+        protected static final int SwampViscosityCoefficient = 3;
+        protected static final int SandViscosityCoefficient = 1;
+        protected static final int IceSlipperinessCoefficient = 1;
     }
 }

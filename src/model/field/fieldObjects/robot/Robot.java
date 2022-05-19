@@ -1,25 +1,33 @@
 package model.field.fieldObjects.robot;
 
 import model.events.RobotMoveEvent;
+import model.events.WeatherChangeEvent;
 import model.field.Cell;
 import model.field.Direction;
 import model.field.fieldObjects.CellItem;
 import model.field.fieldObjects.landscape.LandscapeSegment;
 import model.field.fieldObjects.robot.moveCharacteristics.MoveCharacteristic;
 import model.field.fieldObjects.robot.moveCharacteristics.SlipperinessCharacteristic;
+import model.field.fieldObjects.robot.moveCharacteristics.ViscosityCharacteristic;
 import model.listeners.RobotMoveListener;
+import model.listeners.WeatherChangeListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Robot extends CellItem {
+public abstract class Robot extends CellItem implements WeatherChangeListener {
 
     // ----------------------------------------------- Позиция ---------------------------------------------------------
     public boolean setPosition(Cell cell) {
         if (cell == null) return false;
+
         if (_position == cell) return true;
-        if (!canBeLocatedAtPosition(cell) && cell.getRobot() != this) return false;
+
+        boolean isRobotCanToBeLocatedAtNewPosition = canBeLocatedAtPosition(cell) || cell.getRobot() == this;
+        if (!isRobotCanToBeLocatedAtNewPosition) return false;
+
         _position = cell;
+
         return cell.setRobot(this);
     }
 
@@ -38,11 +46,17 @@ public abstract class Robot extends CellItem {
     // ----------------------------------------------- Перемещение -----------------------------------------------------
     protected Cell canMove(Direction direction) {
         if (direction == null || _position == null) return null;
+
         Cell neighbourCell = _position.getNeighbourCell(direction);
-        if (neighbourCell != null && canBeLocatedAtPosition(_position.getNeighbourCell(direction))
-                && _position.getWallSegment(direction) == null) {
+
+        boolean canMoveAtNeighbourCell = neighbourCell != null
+                && canBeLocatedAtPosition(_position.getNeighbourCell(direction))
+                && _position.getWallSegment(direction) == null;
+
+        if (canMoveAtNeighbourCell) {
             return neighbourCell;
         }
+
         return null;
     }
 
@@ -56,34 +70,74 @@ public abstract class Robot extends CellItem {
 
     private boolean move(Direction direction) {
         Cell cellToMove = canMove(direction);
+
         if (cellToMove == null) return false;
+
         Cell fromCell = getPosition();
         getPosition().takeRobot();
-        if (setPosition(cellToMove)) {
+
+        boolean isRobotSuccessfullySetAtNewPosition = setPosition(cellToMove);
+
+        if (isRobotSuccessfullySetAtNewPosition) {
             fireRobotMove(fromCell, cellToMove);
-            return true;
         }
-        return false;
+
+        return isRobotSuccessfullySetAtNewPosition;
+    }
+
+    protected boolean canMoveAfterProcessingMoveCharacteristic() {
+        boolean isRobotStuck = robotHasViscosityCharacteristic();
+        return !(isRobotStuck);
     }
 
     // ----------------------------------------------- Работа с ландшафтом ---------------------------------------------
     protected MoveCharacteristic _characteristic = null;
 
-    protected abstract void processIfLandscapeSegment();
+    public abstract void processIfLandscapeSegment();
 
-    protected void processMoveCharacteristic() {
-        if (_characteristic == null) return;
-        if (_characteristic.getLifeTime() == 0) {
+    protected void processBeforeMovingCharacteristic() {
+        boolean isBeforeMovingCharacteristic = robotHasViscosityCharacteristic();
+
+        if (!isBeforeMovingCharacteristic) return;
+
+        boolean isCharacteristicSetButLandscapeSegmentNotUnderTheRobot = (_position.getLandscapeSegment() == null);
+
+        boolean isLifeTimeOfCharacteristicEnded = !_characteristic.decrementLifeTime();
+
+        if (isCharacteristicSetButLandscapeSegmentNotUnderTheRobot || isLifeTimeOfCharacteristicEnded) {
             _characteristic = null;
         }
-        if (_characteristic != null) {
-            do {} while (_characteristic.decrementLifeTime() && _characteristic instanceof SlipperinessCharacteristic);
+    }
+
+    protected void processAfterMovingCharacteristic() {
+        boolean isAfterMovingCharacteristic = robotHasSlipperinessCharacteristic();
+
+        if (!isAfterMovingCharacteristic) return;
+
+        boolean isCharacteristicSetButLandscapeSegmentNotUnderTheRobot = (_position.getLandscapeSegment() == null);
+
+        boolean isLifeTimeOfCharacteristicEnded = !_characteristic.decrementLifeTime();
+
+        if (isCharacteristicSetButLandscapeSegmentNotUnderTheRobot || isLifeTimeOfCharacteristicEnded) {
+            _characteristic = null;
         }
     }
 
     protected void setLandscapeCharacteristic(MoveCharacteristic characteristic) {
-        if (characteristic == null) return;
+        boolean newAndOldCharacteristicAreSlipperiness = (robotHasSlipperinessCharacteristic()
+                                                        && characteristic instanceof SlipperinessCharacteristic);
+
+        if (characteristic == null || newAndOldCharacteristicAreSlipperiness) return;
+
         _characteristic = characteristic;
+    }
+
+    protected boolean robotHasViscosityCharacteristic() {
+        return _characteristic instanceof ViscosityCharacteristic;
+    }
+
+    protected boolean robotHasSlipperinessCharacteristic() {
+        return _characteristic instanceof SlipperinessCharacteristic;
     }
 
     protected abstract MoveCharacteristic createMoveCharacteristic(LandscapeSegment landscapeSegment);
@@ -113,10 +167,14 @@ public abstract class Robot extends CellItem {
         }
     }
 
+    public void weatherChanged(WeatherChangeEvent e) {
+        processIfLandscapeSegment();
+    }
+
     // ----------------------------------------------- Коэффициенты характеристик передвижения -------------------------
     protected static class MoveCharacteristicCoefficients {
-        protected static int SwampViscosityCoefficient = 0;
-        protected static int SandViscosityCoefficient = 0;
-        protected static int IceSlipperinessCoefficient = 0;
+        protected static final int SwampViscosityCoefficient = 0;
+        protected static final int SandViscosityCoefficient = 0;
+        protected static final int IceSlipperinessCoefficient = 0;
     }
 }

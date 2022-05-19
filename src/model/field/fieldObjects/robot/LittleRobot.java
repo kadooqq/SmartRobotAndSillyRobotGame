@@ -24,38 +24,42 @@ public class LittleRobot extends Robot implements Destroyable {
 
     @Override
     public boolean makeStep(Direction direction) {
-        if (_characteristic != null) {
-            processMoveCharacteristic();
-            if (_characteristic instanceof ViscosityCharacteristic) {
-                fireLittleRobotEndStep();
-                return false;
-            }
-        }
-
-        boolean isFirstStep = true;
         boolean isSuccessfulStep = false;
-        for (int i = 0; i < 2 && (isFirstStep || _characteristic instanceof SlipperinessCharacteristic); ++i) {
-            isFirstStep = false;
-            isSuccessfulStep = super.makeStep(direction);
-            if (!isSuccessfulStep) {
-                if (_position != null && _position.getWallSegment(direction) == null && _position.getNeighbourCell(direction) != null
-                        && _position.getNeighbourCell(direction).getRobot() instanceof BigRobot) {
-                    destroy();
-                    return true;
-                }
-            }
-        }
+        boolean isRobotSlides;
+        do {
+            processBeforeMovingCharacteristic();
+
+            if (!canMoveAfterProcessingMoveCharacteristic()) return isSuccessfulStep;
+
+            isSuccessfulStep = super.makeStep(direction) || isSuccessfulStep;
+
+            processAfterMovingCharacteristic();
+
+            isRobotSlides = robotHasSlipperinessCharacteristic();
+        } while (isRobotSlides);
+
         fireLittleRobotEndStep();
+
         return isSuccessfulStep;
     }
 
     // ----------------------------------------------- Работа с ландшафтом ---------------------------------------------
     @Override
-    protected void processIfLandscapeSegment() {
+    public void processIfLandscapeSegment() {
         if (_position == null) return;
+
         setLandscapeCharacteristic(createMoveCharacteristic(_position.getLandscapeSegment()));
+
         if (_position.getLandscapeSegment() instanceof SwampSegment) {
             destroy();
+        }
+    }
+
+    @Override
+    protected void processBeforeMovingCharacteristic() {
+        super.processBeforeMovingCharacteristic();
+        if (robotHasViscosityCharacteristic()) {
+            fireLittleRobotEndStep();
         }
     }
 
@@ -125,7 +129,7 @@ public class LittleRobot extends Robot implements Destroyable {
 
     // ----------------------------------------------- Коэффициенты характеристик передвижения -------------------------
     protected static class MoveCharacteristicCoefficients {
-        protected static int SandViscosityCoefficient = 1;
-        protected static int IceSlipperinessCoefficient = 1;
+        protected final static int SandViscosityCoefficient = 1;
+        protected final static int IceSlipperinessCoefficient = 1;
     }
 }
