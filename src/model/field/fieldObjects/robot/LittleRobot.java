@@ -35,7 +35,7 @@ public class LittleRobot extends Robot implements Destroyable {
 
             processAfterMovingCharacteristic();
 
-            isRobotSlides = robotHasSlipperinessCharacteristic();
+            isRobotSlides = _position != null && robotHasSlipperinessCharacteristic();
         } while (isRobotSlides);
 
         fireLittleRobotEndStep();

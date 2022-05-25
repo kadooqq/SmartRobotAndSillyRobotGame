@@ -71,6 +71,7 @@ public class BigRobot extends Robot implements LittleRobotEndStepListener {
     @Override
     protected boolean makeStep(Direction direction) {
         boolean isSuccessfulStep = false;
+        boolean isSuccessfulCurrentStep;
 
         boolean isRobotSlides;
         do {
@@ -78,17 +79,18 @@ public class BigRobot extends Robot implements LittleRobotEndStepListener {
 
             if (!canMoveAfterProcessingMoveCharacteristic()) return isSuccessfulStep;
 
-            isSuccessfulStep = super.makeStep(direction) || isSuccessfulStep;
+             isSuccessfulCurrentStep = super.makeStep(direction);
 
             processAfterMovingCharacteristic();
 
-            if (!isSuccessfulStep && direction != null) {
+            if (!isSuccessfulCurrentStep && direction != null) {
                 if (checkIfTargetInNeighbourCell(direction)) {
                     catchTarget();
                     return true;
                 }
             }
 
+            isSuccessfulStep = isSuccessfulCurrentStep || isSuccessfulStep;
             isRobotSlides = robotHasSlipperinessCharacteristic();
         } while(isRobotSlides);
 

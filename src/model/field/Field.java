@@ -2,6 +2,7 @@ package model.field;
 
 import model.events.RobotTeleportEvent;
 import model.field.fieldObjects.robot.Robot;
+import model.field.weather.SeasonController;
 import model.listeners.ExitCellListener;
 
 import java.util.ArrayList;
@@ -12,6 +13,18 @@ public class Field implements ExitCellListener {
         _width = width;
         _height = height;
         buildField(exitPoint);
+        _cellsArray = new ArrayList<>(_cells.values());
+    }
+
+    // ----------------------------------------------- Погода ----------------------------------------------------------
+    private SeasonController _seasonController = null;
+
+    public void setSeason(SeasonController.Season season) {
+        _seasonController = new SeasonController(this, season);
+    }
+
+    public SeasonController getSeasonController() {
+        return _seasonController;
     }
 
     // ----------------------------------------------- Высота и ширина поле --------------------------------------------
@@ -28,6 +41,8 @@ public class Field implements ExitCellListener {
     // ----------------------------------------------- Ячейки поля -----------------------------------------------------
     private final TreeMap<MyPoint, Cell> _cells = new TreeMap<>();
 
+    private final ArrayList<Cell> _cellsArray;
+
     public TreeMap<MyPoint, Cell> getCells() {
         return _cells;
     }
@@ -37,21 +52,15 @@ public class Field implements ExitCellListener {
     }
 
     public int getIndexOfCell(Cell cell) {
-        int i = 0;
-        for (Cell c : _cells.values()) {
-            if (c == cell) return i;
-            ++i;
-        }
-        return -1;
+        return _cellsArray.indexOf(cell);
     }
 
     public Cell getCellByIndex(int index) {
-        int i = 0;
-        for (Cell cell : _cells.values()) {
-            if (i == index) return cell;
-            ++i;
-        }
-        return null;
+        Cell cell = null;
+        try {
+            cell = _cellsArray.get(index);
+        } catch (Exception ignored) {}
+        return cell;
     }
 
     public boolean contains(Cell cell) {
@@ -108,6 +117,6 @@ public class Field implements ExitCellListener {
 
     @Override
     public void robotTeleported(RobotTeleportEvent e) {
-        _robots.remove((Robot)e.getTeleportedRobot());
+        _robots.remove(e.getTeleportedRobot());
     }
 }

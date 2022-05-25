@@ -35,10 +35,6 @@ public abstract class Robot extends CellItem implements WeatherChangeListener {
         _position = null;
     }
 
-    public Cell getPosition() {
-        return _position;
-    }
-
     public boolean canBeLocatedAtPosition(Cell cell) {
         return cell != null && cell.getRobot() == null;
     }
@@ -96,6 +92,8 @@ public abstract class Robot extends CellItem implements WeatherChangeListener {
     public abstract void processIfLandscapeSegment();
 
     protected void processBeforeMovingCharacteristic() {
+        if (_position == null) return;
+
         boolean isBeforeMovingCharacteristic = robotHasViscosityCharacteristic();
 
         if (!isBeforeMovingCharacteristic) return;
@@ -110,6 +108,8 @@ public abstract class Robot extends CellItem implements WeatherChangeListener {
     }
 
     protected void processAfterMovingCharacteristic() {
+        if (_position == null) return;
+
         boolean isAfterMovingCharacteristic = robotHasSlipperinessCharacteristic();
 
         if (!isAfterMovingCharacteristic) return;

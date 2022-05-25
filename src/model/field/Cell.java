@@ -117,7 +117,7 @@ public class Cell {
 
     public boolean setLandscapeSegment(final LandscapeSegment landscapeSegment) {
         if (landscapeSegment == null || landscapeSegment.setPosition(this)) {
-            if (_landscapeSegment != null) {
+            if (_landscapeSegment != null && _landscapeSegment != landscapeSegment) {
                 _landscapeSegment.setPosition(null);
             }
             _landscapeSegment = landscapeSegment;

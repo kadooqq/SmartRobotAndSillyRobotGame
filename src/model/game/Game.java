@@ -35,12 +35,6 @@ public class Game implements ExitCellListener, RobotDestroyListener {
         setGameStatus(GameStatus.GAME_IS_ON);
     }
 
-    // ----------------------------------------------- Завершение игры ----------------------------------------------
-    public void abort() {
-        _gameField = null;
-        setGameStatus(GameStatus.GAME_ABORTED);
-    }
-
     // ----------------------------------------------- Игровое поле ----------------------------------------------
     private Field _gameField = null;
 
@@ -66,12 +60,31 @@ public class Game implements ExitCellListener, RobotDestroyListener {
             if (robot instanceof BigRobot) bigRobot = (BigRobot)robot;
         }
 
-        littleRobot.addRobotMoveListener(_gameField.getExitCell());
-        littleRobot.addRobotEndStepListener(bigRobot);
+        // Добавить прослушку погоды роботами
+        if (_gameField.getSeasonController() != null) {
+            _gameField.getSeasonController().addWeatherChangeListener(littleRobot);
+            _gameField.getSeasonController().addWeatherChangeListener(bigRobot);
+        }
 
+        // Добавить прослушку маленького робота точкой выхода
+        littleRobot.addRobotMoveListener(_gameField.getExitCell());
+
+        // Добавить прослушку точки выхода полем
+        _gameField.getExitCell().addExitCellListener(_gameField);
+
+        // Добавить прослушку точки выхода игрой
+        _gameField.getExitCell().addExitCellListener(this);
+        // Добавить прослушку уничтожения маленького робота игрой
         littleRobot.addRobotDestroyListener(this);
 
-        _gameField.getExitCell().addExitCellListener(this);
+        // Добавить прослушку конца хода маленького робота большим роботом
+        if (bigRobot != null) {
+            littleRobot.addRobotEndStepListener(bigRobot);
+        }
+        // и сезоном
+        if (_gameField.getSeasonController() != null) {
+            littleRobot.addRobotEndStepListener(_gameField.getSeasonController());
+        }
     }
 
     // ----------------------------------------------- Наблюдение за точкой выхода -------------------------------------
@@ -90,6 +103,7 @@ public class Game implements ExitCellListener, RobotDestroyListener {
     private final List<GameStatusChangedListener> _listeners = new ArrayList<>();
 
     public void addGameStatusChangedListener(GameStatusChangedListener l) {
+        if (l == null) return;
         _listeners.add(l);
     }
 
