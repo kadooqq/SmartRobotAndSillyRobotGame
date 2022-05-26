@@ -1,24 +1,20 @@
 package ui;
 
-import model.events.LittleRobotEndStepEvent;
-import model.events.RobotDestroyEvent;
-import model.events.RobotMoveEvent;
-import model.events.RobotTeleportEvent;
+import model.events.*;
 import model.field.Cell;
 import model.field.ExitCell;
 import model.field.Field;
 import model.field.fieldObjects.robot.LittleRobot;
 import model.field.fieldObjects.robot.Robot;
+import model.field.weather.SeasonController;
 import model.game.Game;
 import model.game.GameStatus;
-import model.listeners.ExitCellListener;
-import model.listeners.LittleRobotEndStepListener;
-import model.listeners.RobotDestroyListener;
-import model.listeners.RobotMoveListener;
+import model.listeners.*;
 import org.jetbrains.annotations.NotNull;
 import ui.field.FieldWidget;
 import ui.field.cell.CellWidget;
 import ui.field.cell.cellItems.CellItemWidget;
+import ui.field.cell.cellItems.landscape.LandscapeSegmentWidget;
 import ui.field.cell.cellItems.robots.LittleRobotWidget;
 
 import javax.swing.*;
@@ -39,6 +35,7 @@ public class GameWidget extends JPanel {
 
         subscribeOnRobots();
         subscribeOnExitCell();
+        subscribeOnWeatherController();
     }
 
     private void subscribeOnRobots() {
@@ -58,12 +55,18 @@ public class GameWidget extends JPanel {
         exitCell.addExitCellListener(0, new ExitCellController());
     }
 
+    private void subscribeOnWeatherController() {
+        SeasonController seasonController = _game.getGameField().getSeasonController();
+        if (_game.getGameField().getSeasonController() != null) {
+            seasonController.addWeatherChangeListener(0, new WeatherController());
+        }
+    }
+
     private class RobotController implements RobotMoveListener, RobotDestroyListener {
 
         @Override
         public void robotDestroyed(RobotDestroyEvent e) {
             CellItemWidget robotWidget = _fields.get(_game.getGameField()).getWidgetFactory().getWidget(e.getDestroyedRobot());
-            CellWidget cellWhereDestroyedWidget = _fields.get(_game.getGameField()).getWidgetFactory().getWidget(e.getCellWhereDestroyed());
 
             ((LittleRobotWidget)robotWidget).setDestroyedRobotImage();
 
@@ -101,6 +104,26 @@ public class GameWidget extends JPanel {
                 CellItemWidget robotWidget = _fields.get(_game.getGameField()).getWidgetFactory().getWidget((LittleRobot) e.getSource());
                 robotWidget.requestFocusInWindow();
             }
+        }
+    }
+
+    private class WeatherController implements WeatherChangeListener {
+
+        @Override
+        public void weatherChanged(WeatherChangeEvent e) {
+            for (var cell : e.getChangedLandscape()) {
+                CellWidget cellWidget = _fields.get(_game.getGameField()).getWidgetFactory().getWidget(cell);
+                LandscapeSegmentWidget oldLandscape = (LandscapeSegmentWidget) cellWidget.getItem(CellWidget.Layer.BOTTOM);
+                if (oldLandscape != null) {
+                    cellWidget.removeItem(oldLandscape);
+                    _fields.get(_game.getGameField()).getWidgetFactory().remove(oldLandscape);
+                }
+                if (cell.getLandscapeSegment() != null) {
+                    CellItemWidget newLandscape = _fields.get(_game.getGameField()).getWidgetFactory().create(cell.getLandscapeSegment());
+                    cellWidget.addItem(newLandscape);
+                }
+            }
+            updateUI();
         }
     }
 }
