@@ -4,10 +4,7 @@ import model.field.Cell;
 import model.field.ExitCell;
 import model.field.fieldObjects.CellItem;
 import model.field.fieldObjects.WallSegment;
-import model.field.fieldObjects.landscape.IceSegment;
-import model.field.fieldObjects.landscape.LandscapeSegment;
-import model.field.fieldObjects.landscape.SandSegment;
-import model.field.fieldObjects.landscape.SwampSegment;
+import model.field.fieldObjects.landscape.*;
 import model.field.fieldObjects.robot.BigRobot;
 import model.field.fieldObjects.robot.LittleRobot;
 import model.field.fieldObjects.robot.Robot;
@@ -18,6 +15,7 @@ import ui.field.cell.CellWidget;
 import ui.field.cell.ExitCellWidget;
 import ui.field.cell.cellItems.CellItemWidget;
 import ui.field.cell.cellItems.landscape.IceSegmentWidget;
+import ui.field.cell.cellItems.landscape.RockSegmentWidget;
 import ui.field.cell.cellItems.landscape.SandSegmentWidget;
 import ui.field.cell.cellItems.landscape.SwampSegmentWidget;
 import ui.field.cell.cellItems.robots.BigRobotWidget;
@@ -79,6 +77,9 @@ public class WidgetFactory extends JPanel {
         }
         else if (cellItem instanceof IceSegment) {
             cellItemWidget = new IceSegmentWidget();
+        }
+        else if (cellItem instanceof RockSegment) {
+            cellItemWidget = new RockSegmentWidget();
         }
 
         _cellItems.put(cellItem, cellItemWidget);

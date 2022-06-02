@@ -24,6 +24,7 @@ public class ImageUtils {
     public static final String SWAMP_IMAGE = "Swamp.png";
     public static final String ICE_IMAGE = "Ice.png";
     public static final String SAND_IMAGE = "Sand.png";
+    public static final String ROCK_IMAGE = "Rock.png";
     public static final String VERTICAL_WALL_IMAGE = "VerticalWall.png";
     public static final String HORIZONTAL_WALL_IMAGE = "HorizontalWall.png";
 

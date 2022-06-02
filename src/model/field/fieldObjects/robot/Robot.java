@@ -6,6 +6,7 @@ import model.field.Cell;
 import model.field.Direction;
 import model.field.fieldObjects.CellItem;
 import model.field.fieldObjects.landscape.LandscapeSegment;
+import model.field.fieldObjects.landscape.RockSegment;
 import model.field.fieldObjects.robot.moveCharacteristics.MoveCharacteristic;
 import model.field.fieldObjects.robot.moveCharacteristics.SlipperinessCharacteristic;
 import model.field.fieldObjects.robot.moveCharacteristics.ViscosityCharacteristic;
@@ -36,7 +37,7 @@ public abstract class Robot extends CellItem implements WeatherChangeListener {
     }
 
     public boolean canBeLocatedAtPosition(Cell cell) {
-        return cell != null && cell.getRobot() == null;
+        return cell != null && cell.getRobot() == null && !(cell.getLandscapeSegment() instanceof RockSegment);
     }
 
     // ----------------------------------------------- Перемещение -----------------------------------------------------

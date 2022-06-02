@@ -1,6 +1,6 @@
 import model.events.GameStatusChangeEvent;
 import model.game.Game;
-import model.labyrinth.SeasonLabyrinth;
+import model.labyrinth.LabyrinthWithRockSegments;
 import model.listeners.GameStatusChangedListener;
 import ui.GameWidget;
 
@@ -40,7 +40,7 @@ public class Main {
         private void startGame() {
             _game = new Game();
 
-            _game.initGame(new SeasonLabyrinth());
+            _game.initGame(new LabyrinthWithRockSegments());
 
             _game.addGameStatusChangedListener(new GameController());
 

@@ -3,6 +3,7 @@ package model.gameStuff;
 import model.field.Cell;
 import model.field.Direction;
 import model.field.Field;
+import model.field.fieldObjects.landscape.RockSegment;
 import model.field.fieldObjects.robot.BigRobot;
 
 import java.util.ArrayList;
@@ -114,6 +115,6 @@ public class PathFinder {
     }
 
     private boolean moveIsPossible(Cell position, Direction direction){
-        return position.getNeighbourCell(direction) != null && position.getWallSegment(direction) == null;
+        return position.getNeighbourCell(direction) != null && position.getWallSegment(direction) == null && !(position.getNeighbourCell(direction).getLandscapeSegment() instanceof RockSegment);
     }
 }
